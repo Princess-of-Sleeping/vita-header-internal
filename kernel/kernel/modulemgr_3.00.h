@@ -1,4 +1,14 @@
 
+
+
+typedef struct SceKernelModulePrivate9 { // size is 0x84-bytes on 3.00
+	SceClass SceUIDModuleClass;
+	SceClass SceUIDLibraryClass;
+	SceKernelProcessModuleInfo ProcModuleInfo;
+	void *data_0x7C;
+	SceUID ScePsp2BootConfig_modid;
+} SceKernelModulePrivate9;
+
 typedef struct SceModuleImport SceModuleImport;
 typedef struct SceModuleCB SceModuleCB;
 
