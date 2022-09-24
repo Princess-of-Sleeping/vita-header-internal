@@ -88,15 +88,7 @@ typedef struct SceModuleCB { // size is 0x114-bytes on 3.00
 	SceUInt32 unk_0x64;
 	SceUInt32 unk_0x68;
 	SceInt32 segment_num;
-	SceUInt32 unk_0x70;
-	SceUInt32 unk_0x74;
-	SceModuleSegment segment[2];
-	SceUInt32 unk_0xB8;
-	SceUInt32 unk_0xBC;
-	SceUInt32 unk_0xC0;
-	SceUInt32 unk_0xC4;
-	SceUInt32 unk_0xC8;
-	SceUInt32 unk_0xCC;
+	SceModuleSegment segment[3];
 	ScePVoid start_entry;
 	ScePVoid stop_entry;
 	ScePVoid exit_entry;
