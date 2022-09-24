@@ -101,7 +101,7 @@ typedef struct SceModuleCB { // size is 0x114-bytes on 3.00
 	SceUInt16 flags;
 	SceUInt8 state;
 	SceUInt8 pad_0xF7;
-	ScePVoid prev_module;
+	struct SceModuleCB *prev_module;
 	SceUID processId;
 	SceUInt32 module_sdk_version;
 	SceUInt32 unk_0x104;
