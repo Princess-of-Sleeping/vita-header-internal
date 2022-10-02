@@ -198,13 +198,14 @@ typedef struct SceUIDModuleObject { // size is 0xF4-bytes
 typedef struct SceUIDLibraryObject {
 	uint32_t sce_reserved[2];
 	SceModuleLibEnt *pLibEnt;
-	SceUID modid;
+	SceUID module_guid;
 } SceUIDLibraryObject;
 
 typedef struct SceUIDLibStubObject {
 	uint32_t sce_reserved[2];
-	SceUID modid;
-	SceSize num; // maybe some number
+	SceNID libnid;
+	SceUInt16 importIndex;
+	SceUInt16 unk;
 } SceUIDLibStubObject;
 
 typedef struct SceAddr2ModCB { // size is 0x14-bytes
@@ -218,7 +219,7 @@ typedef struct SceAddr2ModCB { // size is 0x14-bytes
 typedef struct SceKernelLibraryDB { // size is 0x24-bytes
 	SceUID pid;
 	SceModuleLibEnt *pLibEnt;
-	SceUInt16 data_0x08;
+	SceUInt16 nLibEnt;
 	SceUInt16 nLost;
 	SceModuleClient *pLost;
 	SceModuleCB *pModuleCB;
