@@ -34,42 +34,43 @@ typedef struct SceModuleImport { // size is 0x24-bytes
 	uint16_t entry_num_function;
 	uint16_t entry_num_variable;
 	uint16_t data_0x0A; // unused?
-	uint32_t libnid;
+	SceNID libnid;
 	const char *libname;
-	uint32_t *table_func_nid;
-	void    **table_function;
-	uint32_t *table_vars_nid;
-	void    **table_variable;
+	SceNID *table_func_nid;
+	void  **table_function;
+	SceNID *table_vars_nid;
+	void  **table_variable;
 } SceModuleImport;
 
 typedef struct SceModuleExport { // size is 0x20-bytes
-	SceUInt8 size;
-	SceUInt8 auxattr;
-	uint16_t version;
-	uint16_t flags; // 0x4000:user export
-	uint16_t entry_num_function;
-	uint16_t entry_num_variable;
-	uint16_t data_0x0A; // unused?
-	uint32_t data_0x0C; // unused?
-	uint32_t libnid;
+	SceUInt8    size;
+	SceUInt8    auxattr;
+	SceUInt16   version;
+	SceUInt16   flags; // 0x4000:user export
+	SceUInt16   entry_num_function;
+	SceUInt16   entry_num_variable;
+	SceUInt16   data_0x0A; // unused?
+	SceUInt8    data_0x0C; // TLS size index
+	SceUInt8    data_0x0D[3];
+	SceNID      libnid;
 	const char *libname;
-	uint32_t *table_nid;
-	void    **table_entry;
+	SceNID     *table_nid;
+	ScePVoid   *table_entry;
 } SceModuleExport;
 
 typedef struct SceModuleClient { // size is 0x18-bytes
 	struct SceModuleClient *next;
 	SceUID stubid;
-	SceModuleImport *pImport;
-	SceModuleLibEnt *pLibEnt;
-	SceModuleCB *pModuleCB;
+	SceModuleImport *Import;
+	SceModuleLibEnt *LibEnt;
+	SceModuleCB *Module;
 	ScePVoid stubtbl; // stub pointer + stub nids
 } SceModuleClient;
 
 typedef struct SceModuleLibEnt { // size is 0x2C-bytes
 	struct SceModuleLibEnt *next;
 	struct SceModuleLibEnt *data_0x04; // maybe
-	SceModuleExport *pExport;
+	SceModuleExport *Export;
 
 	/*
 	 * (syscall_idx &  0xFFF): syscall index
@@ -77,22 +78,22 @@ typedef struct SceModuleLibEnt { // size is 0x2C-bytes
 	 * (syscall_idx == 0)    : kernel export
 	 */
 	SceUInt16 syscall_info;
-	SceUInt16 data_0x0E;
+	SceUInt16 flags;
 
-	SceUInt32 nClient;
-	SceModuleClient *pClient;
+	SceUInt32 ClientCounter;
+	SceModuleClient *ClientHead;
 	SceUID libent_guid;
 	SceUID libent_puid;
-	SceModuleCB *pModuleCB;
-	int data_0x24; // zero?
-	int data_0x28; // zero?
+	SceModuleCB *Module;
+	ScePVoid dtrace_data0;
+	ScePVoid dtrace_data1;
 } SceModuleLibEnt;
 
 typedef struct SceModuleSharedHost { // size is 0x10-bytes
 	struct SceModuleSharedHost *next;
-	SceModuleCB *pModuleCB;
-	SceUInt32 nClient;
-	void *pCachedDataSegment;
+	SceModuleCB *Module;
+	SceUInt32 ClientCounter;
+	void *CachedDataSegment;
 } SceModuleSharedHost;
 
 typedef struct SceModuleSegment { // size is 0x14
@@ -132,15 +133,15 @@ typedef struct SceModuleEntryCallParam { // size is 0x14-bytes
 typedef struct SceModuleCB { // size is 0xE8-bytes
 	struct SceModuleCB *next;
 	SceUInt16 flags;
-	SceUInt8 state;
+	SceUInt8 status;
 	SceUInt8 data_0x07;
 	SceUInt32 module_sdk_version;
 	SceUID module_guid;
 	SceUID module_puid;
 	SceUID pid;
-	uint16_t attr;
-	uint8_t minor;
-	uint8_t major;
+	SceUInt16 attr;
+	SceUInt8 minor;
+	SceUInt8 major;
 	char *module_name;
 
 	struct {
@@ -158,17 +159,17 @@ typedef struct SceModuleCB { // size is 0xE8-bytes
 		void *extabBtm;
 	};
 
-	SceUInt16 nExport;
-	SceUInt16 nImport;
-	ScePVoid pWorkPool;
-	SceModuleExport *pExport; // for kernel access
-	SceModuleLibEnt *pLibEnt;
-	SceModuleImport *pImport; // for kernel access
-	SceModuleClient *pClient;
+	SceUInt16 ExportCounter;
+	SceUInt16 ImportCounter;
+	ScePVoid WorkPool;
+	SceModuleExport *Export; // for kernel access
+	SceModuleLibEnt *LibEntVector;
+	SceModuleImport *Import; // for kernel access
+	SceModuleClient *ClientVector;
 
 	struct { // size is 0x5C-bytes
 		char *path;
-		SceInt32 nSegment;
+		SceInt32 SegmentCounter;
 		SceModuleSegment segment[3];
 		int data_0xAC;
 		int data_0xB0;
@@ -182,7 +183,7 @@ typedef struct SceModuleCB { // size is 0xE8-bytes
 	const SceModuleEntryCallParam *module_start_thread_param; // noname export. NID:0x1A9822A4
 	const SceModuleEntryCallParam *module_stop_thread_param; // noname export. NID:0xD20886EB
 	void *arm_exidx; // need dipsw 0xD2
-	SceModuleSharedHost *pSharedHost;
+	SceModuleSharedHost *SharedHost;
 	int data_0xD8;
 	SceModuleDebugPointExportsInfo *pDbgPointInfo;
 	SceModuleDebugPointExport **pDbgPointList; // noname export. NID:0x8CE938B1
@@ -195,13 +196,13 @@ typedef struct SceUIDModuleObject { // size is 0xF4-bytes
 	int data_0xE8;
 } SceUIDModuleObject;
 
-typedef struct SceUIDLibraryObject {
+typedef struct SceUIDLibraryObject { // size is 0x10-bytes
 	uint32_t sce_reserved[2];
 	SceModuleLibEnt *pLibEnt;
 	SceUID module_guid;
 } SceUIDLibraryObject;
 
-typedef struct SceUIDLibStubObject {
+typedef struct SceUIDLibStubObject { // size is 0x10-bytes
 	uint32_t sce_reserved[2];
 	SceNID libnid;
 	SceUInt16 importIndex;
@@ -209,23 +210,23 @@ typedef struct SceUIDLibStubObject {
 } SceUIDLibStubObject;
 
 typedef struct SceAddr2ModCB { // size is 0x14-bytes
-	void *pAddr2ModTbl;
+	void *Addr2ModTbl;
 	SceUID memid_Addr2ModTbl;
 	SceUID memid_A2ExidxTmpUser;
 	SceUID memid_A2ExidxTmpKern;
-	void *pA2ExidxTmp;
+	void *A2ExidxTmp;
 } SceAddr2ModCB;
 
 typedef struct SceKernelLibraryDB { // size is 0x24-bytes
 	SceUID pid;
-	SceModuleLibEnt *pLibEnt;
-	SceUInt16 nLibEnt;
-	SceUInt16 nLost;
-	SceModuleClient *pLost;
-	SceModuleCB *pModuleCB;
-	SceUID moduleId;
-	SceUInt16 nModules;
+	SceModuleLibEnt *LibEntHead;
+	SceUInt16 LibEntCounter;
+	SceUInt16 LostClientCounter;
+	SceModuleClient *LostClientHead;
+	SceModuleCB *ModuleHead;
+	SceUID ModuleId;
+	SceUInt16 ModuleCounter;
 	SceUInt16 flags;
-	SceAddr2ModCB *pAddr2ModCB;
-	int cpu_addr;
+	SceAddr2ModCB *Addr2ModTbls;
+	SceUInt32 mutex;
 } SceKernelLibraryDB;
