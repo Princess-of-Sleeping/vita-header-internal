@@ -29,4 +29,7 @@ typedef struct SceKernelBudgetInfo { // size is 0x88-bytes
 } SceKernelBudgetInfo;
 
 
+int sceKernelGetBudgetInfo(SceUID budgetId, SceKernelBudgetInfo *pInfo);
+
+
 #endif /* _PSP2_KERNEL_SYSMEM_BUDGET_H_ */
