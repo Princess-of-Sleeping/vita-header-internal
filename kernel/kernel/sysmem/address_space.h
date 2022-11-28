@@ -149,11 +149,4 @@ typedef struct SceUIDAddressSpaceObject { // size is 0x170-bytes
 	SceUInt32 magic;		// 0x4D95AEEC
 } SceUIDAddressSpaceObject;
 
-typedef struct SceSysmemAddressSpaceInfo {
-	uintptr_t base;
-	SceSize total;
-	SceSize free;
-	SceSize unkC;
-} SceSysmemAddressSpaceInfo;
-
 #endif /* _PSP2_KERNEL_AS_H_ */
