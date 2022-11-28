@@ -2,7 +2,7 @@
 #ifndef _PSP2_KERNEL_SYSMEM_BUDGET_H_
 #define _PSP2_KERNEL_SYSMEM_BUDGET_H_
 
-#include <psp2kern/types.h>
+#include <shared/types.h>
 #include <kernel/kernel/sysmem/phymempart.h>
 
 

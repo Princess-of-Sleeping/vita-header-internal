@@ -2,7 +2,7 @@
 #ifndef _PSP2_KERNEL_SYSMEM_PHYMEMPART_H_
 #define _PSP2_KERNEL_SYSMEM_PHYMEMPART_H_
 
-#include <psp2kern/types.h>
+#include <shared/types.h>
 
 
 typedef struct ScePhyMemPartInfoCore { // size is 0x10 on FWs 0.990-3.60
