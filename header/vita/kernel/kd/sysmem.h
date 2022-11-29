@@ -17,9 +17,9 @@ int sceKernelIsVAWithinDebugPADramRange(const void *pVA);
 int sceKernelLockRange(const void *base, SceSize range);
 int sceKernelLockRangeProc(SceUID pid, const void *base, SceSize range);
 int sceKernelLockRangeWithMode(SceUInt32 mode, const void *base, SceSize size);
-int sceKernelUnlockRange(const void * base, SceSize range);
+int sceKernelUnlockRange(const void *base, SceSize range);
 int sceKernelUnlockRangeProc(SceUID pid, void *base, SceSize range);
-int sceKernelUnlockRangeWithMode(SceUInt32 mode, void * base, SceSize range);
+int sceKernelUnlockRangeWithMode(SceUInt32 mode, void *base, SceSize range);
 
 #define SCE_KERNEL_MEMBLOCK_PARTIAL_CHECK_ALLOCATED  (0x1)
 #define SCE_KERNEL_MEMBLOCK_PARTIAL_CHECK_FREE       (0x2)
