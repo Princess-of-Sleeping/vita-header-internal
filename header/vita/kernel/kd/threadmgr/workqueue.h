@@ -2,7 +2,7 @@
 #ifndef _PSP2_KERNEL_THREAD_WORKQUEUE_H_
 #define _PSP2_KERNEL_THREAD_WORKQUEUE_H_
 
-#include <shared/types.h>
+#include <vita/shared/types.h>
 
 
 #define SCE_KERNEL_WORKQUEUE_HAS_THREAD_NUMBER     (1 << 0)

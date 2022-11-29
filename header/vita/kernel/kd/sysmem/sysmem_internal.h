@@ -6,7 +6,7 @@
 extern "C" {
 #endif
 
-#include <shared/types.h>
+#include <vita/shared/types.h>
 #include <psp2kern/kernel/sysmem.h>
 
 

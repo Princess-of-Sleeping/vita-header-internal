@@ -2,7 +2,7 @@
 #ifndef _PSP2_KERNEL_MODULEMGR_H_
 #define _PSP2_KERNEL_MODULEMGR_H_
 
-#include <shared/types.h>
+#include <vita/shared/types.h>
 
 
 #ifdef __cplusplus

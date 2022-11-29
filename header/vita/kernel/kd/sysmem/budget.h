@@ -2,8 +2,8 @@
 #ifndef _PSP2_KERNEL_SYSMEM_BUDGET_H_
 #define _PSP2_KERNEL_SYSMEM_BUDGET_H_
 
-#include <shared/types.h>
-#include <kernel/kernel/sysmem/phymempart.h>
+#include <vita/shared/types.h>
+#include <vita/kernel/kd/sysmem/phymempart.h>
 
 
 typedef struct SceKernelBudgetInfo { // size is 0x88-bytes

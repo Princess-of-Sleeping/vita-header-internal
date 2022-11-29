@@ -2,7 +2,7 @@
 #ifndef _PSP2_KERNEL_FIXEDHEAP_H_
 #define _PSP2_KERNEL_FIXEDHEAP_H_
 
-#include <shared/types.h>
+#include <vita/shared/types.h>
 
 
 typedef struct SceKernelFixedHeapInfo { // size is 0x90-bytes

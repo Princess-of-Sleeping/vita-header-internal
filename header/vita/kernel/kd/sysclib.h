@@ -2,7 +2,7 @@
 #ifndef _PSP2_KERNEL_SYSCLIB_H_
 #define _PSP2_KERNEL_SYSCLIB_H_
 
-#include <shared/types.h>
+#include <vita/shared/types.h>
 
 
 #ifdef __cplusplus

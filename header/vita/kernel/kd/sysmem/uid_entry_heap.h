@@ -2,7 +2,7 @@
 #ifndef _PSP2_KERNEL_UID_ENTRY_HEAP_H_
 #define _PSP2_KERNEL_UID_ENTRY_HEAP_H_
 
-#include <shared/types.h>
+#include <vita/shared/types.h>
 
 
 typedef struct SceUIDEntryHeapInfo { // size is 0x18-bytes
