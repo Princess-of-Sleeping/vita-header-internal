@@ -1,0 +1,10 @@
+version: 2
+firmware: 3.60
+modules:
+  SceProcessmgr:
+    libraries:
+      SceProcessmgrForKernel:
+        kernel: true
+        nid: 0x7A69DE86
+        functions:
+          sceKernelGetPidVector: 0xC031BFE0

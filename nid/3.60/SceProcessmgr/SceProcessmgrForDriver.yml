@@ -1,0 +1,11 @@
+version: 2
+firmware: 3.60
+modules:
+  SceProcessmgr:
+    libraries:
+      SceProcessmgrForDriver:
+        kernel: true
+        nid: 0x746EC971
+        functions:
+          sceKernelGetBudgetInfo: 0x46221964
+          sceKernelGetProcessInfo: 0x0AFF3EAE

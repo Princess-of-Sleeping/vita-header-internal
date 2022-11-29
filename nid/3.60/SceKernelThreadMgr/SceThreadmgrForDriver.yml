@@ -1,0 +1,12 @@
+version: 2
+firmware: 3.60
+modules:
+  SceKernelThreadMgr:
+    nid: 0xF46ED7B2
+    libraries:
+      SceThreadmgrForDriver:
+        kernel: true
+        nid: 0xE2C40624
+        functions:
+          sceKernelCreateWorkQueue: 0x771522C6
+          sceKernelScheduleWorkTask: 0xE50E1185

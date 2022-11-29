@@ -1,0 +1,11 @@
+version: 2
+firmware: 3.60
+modules:
+  SceSysmem:
+    nid: 0x3380B323
+    libraries:
+      SceSysmemForDriver:
+        kernel: true
+        nid: 0x6F25E18A
+        functions:
+          sceKernelVerifyHeap: 0xC50A9C0D

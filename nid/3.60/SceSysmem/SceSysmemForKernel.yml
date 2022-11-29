@@ -1,0 +1,16 @@
+version: 2
+firmware: 3.60
+modules:
+  SceSysmem:
+    nid: 0x3380B323
+    libraries:
+      SceSysmemForKernel:
+        kernel: true
+        nid: 0x63A519E5
+        functions:
+          sceUIDEntryHeapGetInfo: 0x686AA15C
+          sceKernelGetPhyPartTool: 0xF8E95A5A
+          sceKernelGetPhyPartGame: 0xB60568F9
+          sceKernelGetPhyPartKernel: 0x4D38F861
+          sceKernelGetPhyMemPartInfoForDebugger: 0x54E85275
+          sceKernelPartitionGetInfo: 0x7BE4D3D1
