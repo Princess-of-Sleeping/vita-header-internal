@@ -71,7 +71,7 @@ modules:
           sceKernelIsVAWithinDebugPADramRange: 0xA7C0D1FC
           sceKernelLockRange: 0x59A4402F
           sceKernelLockRangeProc: 0x659586BF
-          sceKernelLockRangeWithPerm: 0xBC0A1D60
+          sceKernelLockRangeWithMode: 0xBC0A1D60
           sceKernelMapBlockUserVisibleWithFlag: 0x04059C4B
           sceKernelMemBlockGetSomeSize: 0x78337B62
           sceKernelMemBlockGetVirPage: 0x64DBE472
@@ -95,7 +95,7 @@ modules:
           sceKernelStrnlenUser: 0xB429D419
           sceKernelUnlockRange: 0x75C70DE0
           sceKernelUnlockRangeProc: 0xA8525B06
-          sceKernelUnlockRangeWithPerm: 0x22CBE925
+          sceKernelUnlockRangeWithMode: 0x22CBE925
           sceKernelUnmapMemBlock: 0xFFCD9B60
           sceKernelUserCopy: 0x1BD44DD5
           sceKernelUserMap: 0x278BC201

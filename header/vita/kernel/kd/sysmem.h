@@ -14,6 +14,13 @@ int sceKernelGetDebugPADramRange(SceUIntPtr *address, SceSize *length);
 int sceKernelIsVAWithinDebugPADramRange(const void *pVA);
 
 
+int sceKernelLockRange(const void *base, SceSize range);
+int sceKernelLockRangeProc(SceUID pid, const void *base, SceSize range);
+int sceKernelLockRangeWithMode(SceUInt32 mode, const void *base, SceSize size);
+int sceKernelUnlockRange(const void * base, SceSize range);
+int sceKernelUnlockRangeProc(SceUID pid, void *base, SceSize range);
+int sceKernelUnlockRangeWithMode(SceUInt32 mode, void * base, SceSize range);
+
 #define SCE_KERNEL_MEMBLOCK_PARTIAL_CHECK_ALLOCATED  (0x1)
 #define SCE_KERNEL_MEMBLOCK_PARTIAL_CHECK_FREE       (0x2)
 #define SCE_KERNEL_MEMBLOCK_PARTIAL_CHECK_MAPPED     (0x4)
@@ -36,22 +43,10 @@ int SceSysmemForDriver_6C76AD89(SceUID memid, void *vbase, SceSize vsize, int fl
 int SceSysmemForDriver_8C43B052(SceUID memid, void *vbase, SceSize vsize, int flags);
 
 int sceKernelMemBlockGetVirPage(SceUID memid, void *a2);
-
-/*
-          SceSysmemForDriver_8C43B052: 0x8C43B052
-          SceSysmemForDriver_987EE587: 0x987EE587
-*/
-
+int sceKernelMemBlockToPAVector(SceUID memid, void *pPAV);
 
 
 /*
-          sceKernelLockRange: 0x59A4402F
-          sceKernelLockRangeProc: 0x659586BF
-          sceKernelLockRangeWithPerm: 0xBC0A1D60
-          sceKernelUnlockRange: 0x75C70DE0
-          sceKernelUnlockRangeProc: 0xA8525B06
-          sceKernelUnlockRangeWithPerm: 0x22CBE925
-
           sceKernelAllocMemBlockForKernel: 0xC94850C9
           sceKernelAllocMemBlockWithInfoForKernel: 0xD44F464D
           sceKernelFreeMemBlock: 0x009E1C61
@@ -81,27 +76,30 @@ int sceKernelMemBlockGetVirPage(SceUID memid, void *a2);
           sceKernelPartitionMapMemBlock: 0x58D21746
           sceKernelUnmapMemBlock: 0xFFCD9B60
 
-          sceKernelCountFillValue64FromUser: 0xBB3B02C2
-          sceKernelCountFillValue64FromUserProc: 0xE83855FD
-          sceKernelCountFillValueFromUser: 0xBDA6E42B
-          sceKernelCountFillValueFromUserProc: 0x8334454F
-
           sceKernelProcessGetContext: 0x2ECF7944
           sceKernelProcessSwitchContext: 0x2D711589
-
-          sceKernelCopyFromUser: 0xBC996A7A
-          sceKernelCopyFromUserProc: 0x605275F8
-          sceKernelCopyToUser: 0x6D88EF8A
-          sceKernelCopyToUserProc: 0x6B825479
-          sceKernelProcStrncpyFromUser: 0x75AAF178
-          sceKernelProcStrncpyToUser: 0xFED82F2D
-          sceKernelProcStrnlenUser: 0x9929EB07
-          sceKernelProcUserCopy: 0x8E086C33
-          sceKernelStrncpyFromUser: 0xDB3EC244
-          sceKernelStrncpyToUser: 0x80BD6FEB
-          sceKernelStrnlenUser: 0xB429D419
-          sceKernelUserCopy: 0x1BD44DD5
 */
+
+
+int sceKernelCopyFromUser(void *dst, const void *src, SceSize length);
+int sceKernelCopyToUser(void *dst, const void *src, SceSize length);
+int sceKernelCopyFromUserProc(SceUID pid, void *dst, const void *src, SceSize length);
+int sceKernelCopyToUserProc(SceUID pid, void *dst, const void *src, SceSize length);
+SceSSize sceKernelStrncpyFromUser(char *dst, const char *src, SceSize length);
+SceSSize sceKernelStrncpyToUser(char *dst, const char *src, SceSize length);
+SceSSize sceKernelStrnlenUser(const char *s, SceSize length);
+SceSSize sceKernelProcStrncpyFromUser(SceUID pid, char *dst, const char *src, SceSize length);
+SceSSize sceKernelProcStrncpyToUser(SceUID pid, char *dst, const char *src, SceSize length);
+SceSSize sceKernelProcStrnlenUser(SceUID pid, const char *s, SceSize length);
+int sceKernelUserCopy(void *dst, const char *src, SceSize length);
+int sceKernelProcUserCopy(SceUID pid, void *dst, const char *src, SceSize length);
+
+
+SceInt32 sceKernelCountFillValue64FromUser(const void *ptr, SceUInt64 value, SceSize range);
+SceInt32 sceKernelCountFillValue64FromUserProc(SceUID pid, const void *ptr, SceUInt64 value, SceSize range);
+SceInt32 sceKernelCountFillValueFromUser(const void *ptr, SceUInt32 value, SceSize range);
+SceInt32 sceKernelCountFillValueFromUserProc(SceUID pid, const void *ptr, SceUInt32 value, SceSize range);
+
 
 SceUID sceKernelUserMap(const char *name, int permission, const void *user_buf, SceSize size, void **kernel_page, SceSize *kernel_size, SceUInt32 *kernel_offset);
 SceUID sceKernelUserMapWithFlags(const char *name, int permission, int type, const void *user_buf, SceSize size, void **kernel_page, SceSize *kernel_size, SceUInt32 *kernel_offset);
