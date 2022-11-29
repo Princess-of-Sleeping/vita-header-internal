@@ -1,6 +1,6 @@
 
-#ifndef _PSP2_KERNEL_DEBUG_H_
-#define _PSP2_KERNEL_DEBUG_H_
+#ifndef _PSP2_KERNEL_SYSMEM_H_
+#define _PSP2_KERNEL_SYSMEM_H_
 
 #include <vita/shared/types.h>
 
@@ -112,4 +112,4 @@ int sceKernelUserUnmap(SceUID umap);
 #endif
 
 
-#endif /* _PSP2_KERNEL_DEBUG_H_ */
+#endif /* _PSP2_KERNEL_SYSMEM_H_ */
