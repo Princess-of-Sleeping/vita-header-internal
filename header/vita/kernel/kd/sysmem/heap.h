@@ -17,6 +17,8 @@
           sceKernelFreeHeapMemoryFromGlobalHeap: 0xFB817A59
 */
 
+int sceKernelShrinkHeap(SceUID heapid);
+
 int sceKernelVerifyHeap(SceUID heapid, void *ptr);
 
 

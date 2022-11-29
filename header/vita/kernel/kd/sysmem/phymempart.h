@@ -5,6 +5,10 @@
 #include <vita/shared/types.h>
 
 
+/*
+          sceKernelGetPhyMemInfo: 0x89475192
+*/
+
 typedef struct ScePhyMemPartInfoCore { // size is 0x10 on FWs 0.990-3.60
 	SceUIntPtr pbase; // same as SceKernelPhyMemPart field 0x1C
 	SceSize totalSize;

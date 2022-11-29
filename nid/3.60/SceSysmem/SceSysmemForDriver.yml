@@ -11,11 +11,8 @@ modules:
           SceSysmemForDriver_13805CA8: 0x13805CA8
           SceSysmemForDriver_16713BE8: 0x16713BE8
           SceSysmemForDriver_4C584B29: 0x4C584B29
-          SceSysmemForDriver_64DBE472: 0x64DBE472
           SceSysmemForDriver_6C76AD89: 0x6C76AD89
-          SceSysmemForDriver_856FA2E3: 0x856FA2E3
           SceSysmemForDriver_8C43B052: 0x8C43B052
-          SceSysmemForDriver_987EE587: 0x987EE587
           sceGUIDClose: 0x047D32F2
           sceGUIDCreate: 0x89A44858
           sceGUIDGetClass: 0xC74B0152
@@ -77,6 +74,8 @@ modules:
           sceKernelLockRangeWithPerm: 0xBC0A1D60
           sceKernelMapBlockUserVisibleWithFlag: 0x04059C4B
           sceKernelMemBlockGetSomeSize: 0x78337B62
+          sceKernelMemBlockGetVirPage: 0x64DBE472
+          sceKernelMemBlockToPAVector: 0x987EE587
           sceKernelMemBlockType2Memtype: 0x20C811FA
           sceKernelMemBlockTypeGetPrivileges: 0x6A0792A3
           sceKernelMemBlockTypeGetUnknown: 0xCB0F3A33
@@ -90,6 +89,7 @@ modules:
           sceKernelProcUserMap: 0x0091D74D
           sceKernelProcessGetContext: 0x2ECF7944
           sceKernelProcessSwitchContext: 0x2D711589
+          sceKernelShrinkHeap: 0x856FA2E3
           sceKernelStrncpyFromUser: 0xDB3EC244
           sceKernelStrncpyToUser: 0x80BD6FEB
           sceKernelStrnlenUser: 0xB429D419
