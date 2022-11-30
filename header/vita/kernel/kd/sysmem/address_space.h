@@ -110,7 +110,9 @@ typedef struct SceKernelPTVVector { // size is 0x4000-bytes
 } SceKernelPTVVector;
 
 typedef struct SceKernelAddressSpaceMMUContext { // size is 0x28-bytes
-	SceKernelProcessContext cpu_ctx;
+	SceUIntPtr TTBR1;
+	SceUInt32 DACR;
+	SceUInt32 CONTEXTIDR;
 	SceKernelProcessTTBR *pProcessTTBR;
 	SceKernelPTVVector *unk_0x10;
 	int unk_0x14;
