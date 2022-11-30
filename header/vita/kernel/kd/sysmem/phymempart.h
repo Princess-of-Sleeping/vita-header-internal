@@ -5,8 +5,9 @@
 #include <vita/shared/types.h>
 
 
+int sceKernelGetPhyMemInfo(SceUInt32 pindex, void *info);
+
 /*
-          sceKernelGetPhyMemInfo: 0x89475192
           sceKernelCreatePhyMemPart: 0x2E36E0C4
           sceKernelCreatePhyMemPartByPbase: 0x63D83911
           sceKernelDeletePhyMemPart: 0x2AEA9E09
