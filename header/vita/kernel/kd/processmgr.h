@@ -71,8 +71,10 @@ typedef struct SceKernelBudgetInfoForDebugger { // size is 0x480-bytes
 	SceUID budgetId;
 	char name[0x20];
 	int nInfo;
-	char name2[0x20];
-	SceKernelPhyMemPartInfo pmp_info[6];
+	struct {
+		char name2[0x20];
+		SceKernelPhyMemPartInfo pmp_info;
+	} list[5];
 	char unk_0x46C[0x14];
 } SceKernelBudgetInfoForDebugger;
 
