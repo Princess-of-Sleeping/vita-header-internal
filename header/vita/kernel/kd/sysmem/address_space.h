@@ -3,7 +3,6 @@
 #define _PSP2_KERNEL_AS_H_
 
 #include <vita/shared/types.h>
-#include <psp2kern/kernel/sysmem.h>
 
 typedef struct SceUIDAddressSpaceObject SceUIDAddressSpaceObject;
 
