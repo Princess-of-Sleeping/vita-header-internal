@@ -5,9 +5,12 @@
 #include <vita/shared/types.h>
 
 
+typedef struct SceUIDAddressSpaceObject SceUIDAddressSpaceObject;
+
+
 typedef struct SceKernelPartitionInfo { // size is 0x30-bytes
 	SceSize size;
-	void *unk_0x04;
+	SceUIDAddressSpaceObject *pPart;
 	SceUIntPtr address;
 	SceSize length;
 	SceUInt32 nBlock;
