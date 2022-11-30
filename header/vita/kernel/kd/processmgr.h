@@ -66,5 +66,17 @@ typedef struct SceKernelBudgetInfo { // size is 0x88-bytes
 int sceKernelGetBudgetInfo(SceUID budgetId, SceKernelBudgetInfo *pInfo);
 
 
+typedef struct SceKernelBudgetInfoForDebugger { // size is 0x480-bytes
+	SceSize size;
+	SceUID budgetId;
+	char name[0x20];
+	int nInfo;
+	char name2[0x20];
+	SceKernelPhyMemPartInfo pmp_info[6];
+	char unk_0x46C[0x14];
+} SceKernelBudgetInfoForDebugger;
+
+int sceKernelGetBudgetInfoForDebugger(SceUID budgetId, SceUInt32 level, SceKernelBudgetInfoForDebugger *info);
+
 
 #endif /* _PSP2_KERNEL_PROCESSMGR_H_ */
