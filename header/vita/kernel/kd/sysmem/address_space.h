@@ -6,46 +6,9 @@
 #include <vita/kernel/kd/sysmem/uid_class.h>
 #include <vita/kernel/kd/sysmem/partition.h>
 
+
 typedef struct SceUIDAddressSpaceObject SceUIDAddressSpaceObject;
 
-typedef struct SceUIDTinyPartitionObject { // size is 0x38-bytes
-	void *pUserdata;
-	SceClass *pClass;
-	const char *name;
-	int cpu_intr;
-	void *unk_0x10;
-	void *base_vaddr;
-	SceSize base_size;
-	void *unk_0x1C; // proc cpu ctx
-	int unk_0x20; // some flag?
-	SceSize remain_size;
-	int unk_0x28; // -1
-	int unk_0x2C;
-	int unk_0x30; // -1
-	SceUInt32 magic; // 0xD946F262
-} SceUIDTinyPartitionObject;
-
-typedef struct SceUIDPartitionObject { // size is 0x80-bytes
-	SceUIDTinyPartitionObject tiny;
-	int unk_0x38;
-	int unk_0x3C;
-	int unk_0x40;
-	void *unk_0x44;
-	int unk_0x48;
-	int unk_0x4C; // ex:8
-	int unk_0x50;
-	SceUIDAddressSpaceObject *unk_0x54;
-	int unk_0x58;
-	int unk_0x5C;
-	int unk_0x60; // some bit mask
-	SceUID pid;
-	SceUID this_object_guid;
-	int unk_0x6C;
-	void *unk_0x70;
-	int unk_0x74;
-	int unk_0x78;
-	int unk_0x7C;
-} SceUIDPartitionObject;
 
 typedef struct SceUIDPhyMemPartObject { // size is 0xAC-bytes
 	void *pUserdata;
