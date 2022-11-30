@@ -3,6 +3,8 @@
 #define _PSP2_KERNEL_AS_H_
 
 #include <vita/shared/types.h>
+#include <vita/kernel/kd/sysmem/uid_class.h>
+#include <vita/kernel/kd/sysmem/partition.h>
 
 typedef struct SceUIDAddressSpaceObject SceUIDAddressSpaceObject;
 

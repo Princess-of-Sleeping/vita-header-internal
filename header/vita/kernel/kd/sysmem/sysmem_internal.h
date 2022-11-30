@@ -7,7 +7,32 @@ extern "C" {
 #endif
 
 #include <vita/shared/types.h>
-#include <psp2kern/kernel/sysmem.h>
+
+
+typedef struct SceKernelAllocMemBlockOptKernel { // size is 0x58 on FW 3.60
+	SceSize size;			// Size of this structure
+	SceUInt32 unk_4;                // Never used?
+	SceUInt32 attr;
+	void *vbase;                    // Virtual address memblock should be mapped at
+	void *pbase;			// Physical address to use as base
+	SceSize alignment;
+	SceSize extraLow;               // Size of extra area starting from memblock vbase
+	SceSize extraHigh;              // Size of extra area starting "after" memblock - extra area is ?not mapped?
+	SceUID baseMemBlock;            // UID of memblock this one is based on
+	SceUID pid;
+	SceKernelPAVector *pPAV;
+	SceSize roundupUnitSize;        // Used to roundup memblock vsize
+	SceUInt8 domain;
+	SceUInt32 unk_34; // Related to SCE_KERNEL_ALLOC_MEMBLOCK_ATTR_HAS_0x20
+	SceUInt32 unk_38; // Related to SCE_KERNEL_ALLOC_MEMBLOCK_ATTR_HAS_0x20
+	SceUInt32 unk_3C; // Related to SCE_KERNEL_ALLOC_MEMBLOCK_ATTR_HAS_0x20
+	SceUInt32 unk_40; // Related to SCE_KERNEL_ALLOC_MEMBLOCK_ATTR_HAS_0x20
+	SceUInt32 unk_44; // Related to SCE_KERNEL_ALLOC_MEMBLOCK_ATTR_HAS_0x20
+	SceUInt32 unk_48; // Related to SCE_KERNEL_ALLOC_MEMBLOCK_ATTR_HAS_0x20
+	SceUInt32 unk_4C; // Related to SCE_KERNEL_ALLOC_MEMBLOCK_ATTR_HAS_0x20
+	SceUInt32 unk_50; // Related to SCE_KERNEL_ALLOC_MEMBLOCK_ATTR_HAS_0x20
+	SceUInt32 unk_54; // Related to SCE_KERNEL_ALLOC_MEMBLOCK_ATTR_HAS_0x20
+} SceKernelAllocMemBlockOptKernel;
 
 
 typedef struct SceKernelBlock { // size is 0x40-bytes
@@ -38,7 +63,7 @@ typedef struct SceKernelAllocMemBlockCommand {
 	int data_0x14;
 	int data_0x18;
 	int data_0x1C;
-	SceKernelAllocMemBlockKernelOpt opt;
+	SceKernelAllocMemBlockOptKernel opt;
 	SceKernelBlock *pBlock;
 	int data_0x7C;
 	int data_0x80;
