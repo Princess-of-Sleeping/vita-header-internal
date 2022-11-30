@@ -127,8 +127,8 @@ typedef struct SceUIDAddressSpaceObject { // size is 0x170-bytes
 	int flag;		// kernel:0x30000002, user:0x10000001
 	SceUID pid;
 	SceKernelAddressSpaceMMUContext *unk_0x18;
-	SceUIDPartitionObject *pProcAS[0x20];
-	SceUID unk_uid[0x20];	// AS Info uid?
+	SceUIDPartitionObject *pPart[0x20];
+	SceUID unk_uid[0x20];	// pPart object guid
 	int unk_0x11C;
 	int unk_0x120[3];
 	SceUIDPhyMemPartObject *unk_0x12C;
@@ -153,9 +153,18 @@ typedef struct SceUIDAddressSpaceObject { // size is 0x170-bytes
 } SceUIDAddressSpaceObject;
 
 
+typedef struct SceKernelAddressSpaceInfo { // size is 0x654-bytes
+	SceSize size;
+	SceUID asid;
+	SceUInt32 context_id;
+	SceUInt32 nInfo;
+	SceKernelPartitionInfo part[0x20];
+	char data_0x610[0x44];
+} SceKernelAddressSpaceInfo;
+
 
 int SceSysmemForKernel_46A5CB84(SceUID pid, int a2, int a3, void *info); // get part info by addr
-int SceSysmemForKernel_4492421F(SceUID asid, void *info);
+int SceSysmemForKernel_4492421F(SceUID asid, SceKernelAddressSpaceInfo *info);
 SceUIDPartitionObject *SceSysmemForKernel_210DB518(void *pAS, int pindex);
 
 SceUIDAddressSpaceObject *sceKernelGetKernelAddressSpace(void);
