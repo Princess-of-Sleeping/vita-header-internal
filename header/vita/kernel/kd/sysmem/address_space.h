@@ -130,14 +130,17 @@ typedef struct SceUIDAddressSpaceObject { // size is 0x170-bytes
 	SceUIDPartitionObject *pProcAS[0x20];
 	SceUID unk_uid[0x20];	// AS Info uid?
 	int unk_0x11C;
-	int unk_0x120[4];
+	int unk_0x120[3];
+	SceUIDPhyMemPartObject *unk_0x12C;
 	SceUIDPhyMemPartObject *unk_0x130;
 	SceUIDPhyMemPartObject *unk_0x134;
 	SceUIDPhyMemPartObject *unk_0x138;
+
 	SceUIDPhyMemPartObject *unk_0x13C;
 	SceUIDPhyMemPartObject *unk_0x140;
 	SceUIDPhyMemPartObject *unk_0x144;
 	SceUIDPhyMemPartObject *unk_0x148;
+
 	SceUIDPhyMemPartObject *unk_0x14C;
 	SceUIDPhyMemPartObject *unk_0x150;
 	SceUIDPhyMemPartObject *unk_0x154;
@@ -148,5 +151,31 @@ typedef struct SceUIDAddressSpaceObject { // size is 0x170-bytes
 	uint32_t unk_0x168;	// kernel:0x511389B0
 	SceUInt32 magic;		// 0x4D95AEEC
 } SceUIDAddressSpaceObject;
+
+
+
+int SceSysmemForKernel_46A5CB84(SceUID pid, int a2, int a3, void *info); // get part info by addr
+int SceSysmemForKernel_4492421F(SceUID asid, void *info);
+SceUIDPartitionObject *SceSysmemForKernel_210DB518(void *pAS, int pindex);
+
+SceUIDAddressSpaceObject *sceKernelGetKernelAddressSpace(void);
+
+/*
+          sceKernelCreateAddressSpace: 0x4A3737F0
+          sceKernelDeleteAddressSpace: 0xF2D7FE3A
+          sceKernelAddressSpaceChangeMMUContext: 0x653B0849
+          sceKernelAddressSpaceCtrSetObjectHeap: 0xFC74A355
+          sceKernelAddressSpaceFreeAllMemBlock: 0x89CE1F31
+          sceKernelAddressSpaceGetMMUContext: 0x9894B9E1
+          sceKernelAddressSpaceGetMemoryType: 0xCC7BB240
+          sceKernelAddressSpaceGetTimerVbase: 0x7D92B2D3
+          sceKernelAddressSpaceRefer: 0x3F74E45C
+          sceKernelAddressSpaceSetName: 0x7BD56D6D
+          sceKernelAddressSpaceSetPhyMemPart: 0x67955EE9
+          sceKernelAddressSpaceSetProcess: 0x2476B90F
+          sceKernelAddressSpaceUnmap: 0xCE72839E
+          sceKernelAddressSpaceVARangeToPAVector: 0xF7250E6C
+          sceKernelAddressSpaceVAtoPA: 0xF2179820
+*/
 
 #endif /* _PSP2_KERNEL_AS_H_ */

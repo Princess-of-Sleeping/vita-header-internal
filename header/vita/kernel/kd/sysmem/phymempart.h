@@ -7,6 +7,28 @@
 
 /*
           sceKernelGetPhyMemInfo: 0x89475192
+          sceKernelCreatePhyMemPart: 0x2E36E0C4
+          sceKernelCreatePhyMemPartByPbase: 0x63D83911
+          sceKernelDeletePhyMemPart: 0x2AEA9E09
+          sceKernelFreePhyPage: 0x00BC5B4A
+          sceKernelGetGrownPhyMemPartSize: 0x4D809B47
+          sceKernelGetPhyMemPartAll: 0x2F6F9C2C
+          sceKernelGetPhyMemPartInfoByID: 0xF4FA0575
+          sceKernelGetPhyMemPartInfoCore: 0x3650963F
+          sceKernelGetPhyMemPartInfoForDebugger: 0x54E85275
+          sceKernelGetPhyPageReset: 0xEB350679
+          sceKernelGetPhyPartGame: 0xB60568F9
+          sceKernelGetPhyPartKernel: 0x4D38F861
+          sceKernelGetPhyPartTool: 0xF8E95A5A
+          sceKernelGrowPhyMemPart: 0x6B3F4102
+          sceKernelGrowPhyMemPartByPbase: 0x775AA5E3
+          sceKernelPhyMemLowAlloc: 0x5E169FEF
+          sceKernelPhyMemLowFree: 0x18B99FDD
+          sceKernelPhyMemLowPA2VA: 0x0FD6B756
+          sceKernelPhyMemPartAllocPhyPage: 0xD449547B
+          sceKernelResetPhyMemPart: 0xEEB85560
+          sceKernelSetPhyPartGame: 0x77876A8D
+          sceKernelShowPhyMemPart: 0x5C257482
 */
 
 typedef struct ScePhyMemPartInfoCore { // size is 0x10 on FWs 0.990-3.60

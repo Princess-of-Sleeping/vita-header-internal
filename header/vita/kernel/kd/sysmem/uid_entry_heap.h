@@ -5,6 +5,15 @@
 #include <vita/shared/types.h>
 
 
+/*
+          sceUIDCreateEntryHeap: 0x19CAEF35
+          sceUIDDeleteEntryHeap: 0xF0C3FCFC
+          sceUIDEntryHeapCloseAllPUID: 0xFAF96C1F
+          sceUIDEntryHeapGetInfo: 0x686AA15C
+          sceUIDEntryHeapSetHook: 0xCD985AEB
+*/
+
+
 typedef struct SceUIDEntryHeapInfo { // size is 0x18-bytes
 	SceSize size;
 	SceSize objectSize;

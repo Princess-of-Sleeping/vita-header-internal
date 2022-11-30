@@ -40,5 +40,11 @@ typedef struct SceKernelFixedHeapInfo { // size is 0x90-bytes
 } SceKernelFixedHeapInfo;
 
 
+/*
+          sceKernelFixedHeapSetHook: 0x8C8E2DD1
+          sceKernelGetFixedHeapInfo: 0x4FA4A624
+          sceKernelGetFixedHeapInfoByPointer: 0x219E90FD
+*/
+
 
 #endif /* _PSP2_KERNEL_FIXEDHEAP_H_ */

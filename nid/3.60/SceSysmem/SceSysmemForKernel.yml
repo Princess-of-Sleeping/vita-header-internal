@@ -41,7 +41,7 @@ modules:
           SceSysmemForKernel_6BB6AF94: 0x6BB6AF94
           SceSysmemForKernel_71869119: 0x71869119
           SceSysmemForKernel_72E7BFAC: 0x72E7BFAC
-          SceSysmemForKernel_789CD5BF: 0x789CD5BF
+          sceKernelVSlotUnmapProcMemory: 0x789CD5BF
           SceSysmemForKernel_7DC46969: 0x7DC46969
           SceSysmemForKernel_7FD757FE: 0x7FD757FE
           SceSysmemForKernel_7FDF483A: 0x7FDF483A
@@ -70,7 +70,7 @@ modules:
           SceSysmemForKernel_ECC68E7B: 0xECC68E7B
           SceSysmemForKernel_ECF9435A: 0xECF9435A
           SceSysmemForKernel_F1433852: 0xF1433852
-          SceSysmemForKernel_FAD03241: 0xFAD03241
+          sceKernelVSlotMapProcMemory: 0xFAD03241
           SceSysmemForKernel_FDC0EA11: 0xFDC0EA11
           sceGUIDFindByName: 0xCEBA8031
           sceGUIDFindByNameAll: 0x4B5C85AC

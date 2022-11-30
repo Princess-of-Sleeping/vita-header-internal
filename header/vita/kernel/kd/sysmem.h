@@ -45,6 +45,9 @@ int SceSysmemForDriver_8C43B052(SceUID memid, void *vbase, SceSize vsize, int fl
 int sceKernelMemBlockGetVirPage(SceUID memid, void *a2);
 int sceKernelMemBlockToPAVector(SceUID memid, void *pPAV);
 
+int SceSysmemForKernel_A88F6D88(SceUID memid, void *a2);
+int SceSysmemForKernel_64133268(SceUID uid);
+int SceSysmemForKernel_61C2AA52(SceUInt32 memtype); // get code
 
 /*
           sceKernelAllocMemBlockForKernel: 0xC94850C9
@@ -78,7 +81,51 @@ int sceKernelMemBlockToPAVector(SceUID memid, void *pPAV);
 
           sceKernelProcessGetContext: 0x2ECF7944
           sceKernelProcessSwitchContext: 0x2D711589
+
+
+          SceSysmemForKernel_01DE3AB7: 0x01DE3AB7
+          SceSysmemForKernel_07FEBBCA: 0x07FEBBCA
+          SceSysmemForKernel_080BA2F3: 0x080BA2F3
+          SceSysmemForKernel_114E6476: 0x114E6476
+          SceSysmemForKernel_131CEF52: 0x131CEF52
+          SceSysmemForKernel_153A08A0: 0x153A08A0
+
+
+          sceKernelAllocMemBlockByCommand: 0xCA91B9D5
+
+          sceKernelAllocPartitionMemBlock: 0x5FFE4B79
+
+          sceKernelGetMemBlockInfoAll: 0xFEF54604
+          sceKernelGetMemBlockType: 0x289BE3EC
+
+          sceKernelAllocSimpleMemBlock: 0xF81F4672
+          sceKernelFreeSimpleMemBlock: 0xA1FFA2C9
+          sceKernelGetSimpleMemBlockBase: 0x0A8D14EC
+          sceKernelGetMemBlockInfoSimple: 0x2364A170
+          int SceSysmemForKernel_43DFCE89(void *info); // get fifo?
+
+          sceKernelFindClassByName: 0x62989905
+          sceKernelGetUIDAddressSpaceClass: 0xAF180A3F
+          sceKernelGetUIDDLinkClass: 0xC105604E
+          sceKernelGetUIDHeapClass: 0x4CCA935D
+          sceKernelGetUIDMemBlockClass: 0xAF729575
+
+          sceKernelNameHeapGetInfo: 0xE443253B
+          sceKernelNameHeapInsert: 0x08AB3DAE
+
+          sceKernelCreateObjectHeap: 0x36830F46
+          sceKernelObjectHeapSetResourceLimit: 0x98E6905B
+          sceKernelObjectHeapSetResourceLimitAll: 0x5409397F
+          int SceSysmemForKernel_7FDF483A(); // sceKernelObjectHeapAlloc
+          int SceSysmemForKernel_571660AA(void *ctx, void *obj); // free
+
+          sceKernelSysmemCleaner: 0x43E81C4B
+          sceKernelSysmemModuleStartAfterProcessmgr: 0xE7938BFB
 */
+
+
+int sceKernelVSlotMapProcMemory(SceUID pid, int a2, int a3, int a4, void *a5, void *a6);
+int sceKernelVSlotUnmapProcMemory();
 
 
 int sceKernelCopyFromUser(void *dst, const void *src, SceSize length);
@@ -93,6 +140,11 @@ SceSSize sceKernelProcStrncpyToUser(SceUID pid, char *dst, const char *src, SceS
 SceSSize sceKernelProcStrnlenUser(SceUID pid, const char *s, SceSize length);
 int sceKernelUserCopy(void *dst, const char *src, SceSize length);
 int sceKernelProcUserCopy(SceUID pid, void *dst, const char *src, SceSize length);
+int sceKernelCopyToUserDomain(void *dst, const void *src, SceSize length);
+int sceKernelCopyToUserTextDomain(void *dst, const void *src, SceSize length);
+int sceKernelCopyToUserProcTextDomain(SceUID pid, void *dst, const void *src, SceSize length);
+int sceKernelCopyToUserProcTextDomainForDBGP(SceUID pid, void *dst, const void *src, SceSize length);
+int SceSysmemForKernel_FCB5745A(void *dst, SceUInt32 value, SceInt32 nwords);
 
 
 SceInt32 sceKernelCountFillValue64FromUser(const void *ptr, SceUInt64 value, SceSize range);
@@ -105,6 +157,54 @@ SceUID sceKernelUserMap(const char *name, int permission, const void *user_buf, 
 SceUID sceKernelUserMapWithFlags(const char *name, int permission, int type, const void *user_buf, SceSize size, void **kernel_page, SceSize *kernel_size, SceUInt32 *kernel_offset);
 SceUID sceKernelProcUserMap(SceUID pid, const char *name, int permission, const void *user_buf, SceSize size, void **kernel_page, SceSize *kernel_size, SceUInt32 *kernel_offset);
 int sceKernelUserUnmap(SceUID umap);
+
+
+
+void *SceSysmemForKernel_68CB9266(int a1); // get fixedheap context?
+void *SceSysmemForKernel_C8672A3D(void *a1); // AllocFixedHeap
+
+// sysroot?
+int SceSysmemForKernel_ECC68E7B(SceUID guid, void *a2); // get something
+
+
+// nameheap
+int SceSysmemForKernel_EC1293D2(int a1, int a2, void *a3);
+int SceSysmemForKernel_B543A23C();
+int SceSysmemForKernel_9C7B62AB(char *name, int a2); // delete name?
+
+
+// unknown
+int SceSysmemForKernel_E68A9F1B(int a1, void *a2); // get something
+int SceSysmemForKernel_C6F04370(void); // init something
+int SceSysmemForKernel_C0BF149E(int a1, int a2, void *a3); // get something
+int SceSysmemForKernel_BF0294E4(void); // get something
+int SceSysmemForKernel_BC2E2B2B(void *a1); // set something
+int SceSysmemForKernel_B8D769C6(void *a1, void *pInfo); // get something
+int SceSysmemForKernel_B339A865(void);
+int SceSysmemForKernel_AD5A83E3(SceUID guid, int level, void *a3, void *a4); // get something
+int SceSysmemForKernel_A504BA60();
+SceUInt32 SceSysmemForKernel_942D15FC(const char *name, SceSize namelen, int a3); // get namehash?
+int SceSysmemForKernel_8B07BB52(void); // checks some state?
+int SceSysmemForKernel_7FD757FE();
+int SceSysmemForKernel_7DC46969(void);
+int SceSysmemForKernel_72E7BFAC(int a1); // set something
+int SceSysmemForKernel_6427560F(int index, int a2);
+int SceSysmemForKernel_48D87E17(); // get some info vector
+SceBool SceSysmemForKernel_48750A5A(void *a1, void *a2); // search a2 obj from a1
+int SceSysmemForKernel_3EC2345B(void *a1, int a2);
+int SceSysmemForKernel_3B75CBED(void); // get something
+int SceSysmemForKernel_3203AE64();
+int SceSysmemForKernel_2791F109(void); // get something
+int SceSysmemForKernel_2658EE0A(int a1); // beta only
+int SceSysmemForKernel_22A26637();
+void *SceSysmemForKernel_22708F14();
+int SceSysmemForKernel_21285F40(); // createclass
+int SceSysmemForKernel_1E11F41D(void);
+int SceSysmemForKernel_17F1AA22(int a1); // beta only
+
+
+// VM
+int SceSysmemForKernel_D514BB56(void); // get isVMOpened
 
 
 #ifdef __cplusplus
