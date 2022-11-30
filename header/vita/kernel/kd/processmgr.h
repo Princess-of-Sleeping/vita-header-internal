@@ -72,7 +72,7 @@ typedef struct SceKernelBudgetInfoForDebugger { // size is 0x480-bytes
 	char name[0x20];
 	int nInfo;
 	struct {
-		char name2[0x20];
+		char name[0x20];
 		SceKernelPhyMemPartInfo pmp_info;
 	} list[5];
 	char unk_0x46C[0x44];
