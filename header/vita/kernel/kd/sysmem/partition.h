@@ -7,7 +7,7 @@
 
 typedef struct SceKernelPartitionInfo { // size is 0x30-bytes
 	SceSize size;
-	SceUInt32 unk_0x04;
+	void *unk_0x04;
 	SceUIntPtr address;
 	SceSize length;
 	SceUInt32 nBlock;
