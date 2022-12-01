@@ -114,9 +114,7 @@ typedef enum SceKernelDebugInfoFlag {
 int sceKernelPrintf(const char *fmt, ...);
 int sceKernelPrintfLevel(SceUInt32 level, const char *fmt, ...);
 int sceKernelPrintfLevelWithInfo(SceUInt32 level, int flags, const SceKernelDebugInfo *pInfo, const char *fmt, ...);
-
-int sceKernelVprintf(const char *fmt, va_list arg);
-int sceKernelVprintfAssertLevel(SceUInt32 level, SceBool condition, const SceKernelDebugInfo *pInfo, const void *lr, const char *fmt, va_list arg);
+int sceKernelPrintfWithInfo(SceUInt32 level, const SceKernelDebugInfo *pInfo, const char *fmt, ...);
 
 int sceKernelAssert(SceBool condition, const SceKernelDebugInfo *pInfo, const void *lr);
 int sceKernelAssertLevel(SceUInt32 level, SceBool condition, const SceKernelDebugInfo *pInfo, const void *lr);
@@ -126,8 +124,9 @@ SceUInt32 sceKernelGetAssertLevel(void);
 __attribute__((__noreturn__))
 int sceKernelPanic(const SceKernelDebugInfo *pInfo, const void *lr);
 
+int sceKernelVprintf(const char *fmt, va_list arg);
 int sceKernelVprintfLevel(SceUInt32 level, const char *fmt, va_list arg);
-int sceKernelVprintfWithInfo(SceUInt32 level, const SceKernelDebugInfo *pInfo, const char *fmt, va_list arg);
+int sceKernelVprintfAssertLevel(SceUInt32 level, SceBool condition, const SceKernelDebugInfo *pInfo, const void *lr, const char *fmt, va_list arg);
 
 __attribute__((__noreturn__))
 int sceKernelVprintfPanic(const SceKernelDebugInfo *pInfo, const void *lr, const char *fmt, va_list arg);
