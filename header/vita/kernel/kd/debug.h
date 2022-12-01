@@ -92,6 +92,17 @@ typedef enum SceKernelDebugInfoFlag {
 	}
 #endif
 
+#define SCE_KERNEL_PANIC() { \
+		static const SceKernelDebugInfo dbginfo = { \
+			.fileHash = __PSP2FILEHASH__, \
+			.lineHash = 0, \
+			.funcHash = 0, \
+			.pFile    = __PSP2FILE__, \
+			.line     = __PSP2LINE__, \
+			.pFunc    = __PSP2FUNC__ \
+		}; \
+		sceKernelPanic(&dbginfo, __builtin_return_address(0)); \
+	}
 
 
 #define sceKernelPrintfDebug(__fmt__, ...) SCE_KERNEL_PRINTF_LEVEL_INFO(SCE_KERNEL_DEBUG_LEVEL_DEBUG, SCE_KERNEL_DEBUG_INFO_FLAG_CORE | SCE_KERNEL_DEBUG_INFO_FLAG_FUNC | SCE_KERNEL_DEBUG_INFO_FLAG_FILE, __fmt__, ##__VA_ARGS__);
