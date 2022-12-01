@@ -13,12 +13,13 @@ extern "C" {
 
 
 typedef enum SceKernelDebugLevel {
-	SCE_KERNEL_DEBUG_LEVEL_TRACE = 0, /* An extremely verbose logging level, mostly useful for internal developers. */
-	SCE_KERNEL_DEBUG_LEVEL_DEBUG,     /* A diagnostic logging level. */
-	SCE_KERNEL_DEBUG_LEVEL_INFO,      /* An informational logging level. */
-	SCE_KERNEL_DEBUG_LEVEL_WARNING,   /* A logging level that gives warnings of situations detrimental to proper execution. */
-	SCE_KERNEL_DEBUG_LEVEL_ERROR,     /* A logging level that will report erroneous conditions in execution. */
-	SCE_KERNEL_DEBUG_LEVEL_NUMBERS    /* The number of logging levels available. */
+	SCE_KERNEL_DEBUG_LEVEL_ALWAYS = 0,
+	SCE_KERNEL_DEBUG_LEVEL_TRACE,      /* An extremely verbose logging level, mostly useful for internal developers. */
+	SCE_KERNEL_DEBUG_LEVEL_DEBUG,      /* A diagnostic logging level. */
+	SCE_KERNEL_DEBUG_LEVEL_INFO,       /* An informational logging level. */
+	SCE_KERNEL_DEBUG_LEVEL_WARNING,    /* A logging level that gives warnings of situations detrimental to proper execution. */
+	SCE_KERNEL_DEBUG_LEVEL_ERROR,      /* A logging level that will report erroneous conditions in execution. */
+	SCE_KERNEL_DEBUG_LEVEL_NUMBERS     /* The number of logging levels available. */
 } SceKernelDebugLevel;
 
 typedef struct SceKernelDebugInfo { // size is 0x18 on FW 3.60
@@ -37,6 +38,11 @@ typedef enum SceKernelDebugInfoFlag {
 	SCE_KERNEL_DEBUG_INFO_FLAG_LINE = 4,
 	SCE_KERNEL_DEBUG_INFO_FLAG_FILE = 8
 } SceKernelDebugInfoFlag;
+
+
+#ifndef SCE_KERNEL_DEBUG_INFO_FLAG_DEFAULT
+#define SCE_KERNEL_DEBUG_INFO_FLAG_DEFAULT (SCE_KERNEL_DEBUG_INFO_FLAG_CORE | SCE_KERNEL_DEBUG_INFO_FLAG_FUNC | SCE_KERNEL_DEBUG_INFO_FLAG_FILE)
+#endif
 
 
 #if defined(__PSP2FILE__)
@@ -105,9 +111,6 @@ typedef enum SceKernelDebugInfoFlag {
 	}
 
 
-#define sceKernelPrintfDebug(__fmt__, ...) SCE_KERNEL_PRINTF_LEVEL_INFO(SCE_KERNEL_DEBUG_LEVEL_DEBUG, SCE_KERNEL_DEBUG_INFO_FLAG_CORE | SCE_KERNEL_DEBUG_INFO_FLAG_FUNC | SCE_KERNEL_DEBUG_INFO_FLAG_FILE, __fmt__, ##__VA_ARGS__);
-
-
 int sceKernelPrintf(const char *fmt, ...);
 int sceKernelPrintfLevel(SceUInt32 level, const char *fmt, ...);
 int sceKernelPrintfLevelWithInfo(SceUInt32 level, int flags, const SceKernelDebugInfo *pInfo, const char *fmt, ...);
@@ -128,6 +131,11 @@ int sceKernelVprintfWithInfo(SceUInt32 level, const SceKernelDebugInfo *pInfo, c
 
 __attribute__((__noreturn__))
 int sceKernelVprintfPanic(const SceKernelDebugInfo *pInfo, const void *lr, const char *fmt, va_list arg);
+
+
+
+#define sceKernelPrintfTrace(__fmt__, ...) SCE_KERNEL_PRINTF_LEVEL_INFO(SCE_KERNEL_DEBUG_LEVEL_TRACE, SCE_KERNEL_DEBUG_INFO_FLAG_DEFAULT, __fmt__, ##__VA_ARGS__);
+#define sceKernelPrintfDebug(__fmt__, ...) SCE_KERNEL_PRINTF_LEVEL_INFO(SCE_KERNEL_DEBUG_LEVEL_DEBUG, SCE_KERNEL_DEBUG_INFO_FLAG_DEFAULT, __fmt__, ##__VA_ARGS__);
 
 
 
