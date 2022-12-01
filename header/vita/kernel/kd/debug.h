@@ -120,10 +120,13 @@ int sceKernelAssertLevel(SceUInt32 level, SceBool condition, const SceKernelDebu
 
 SceUInt32 sceKernelGetAssertLevel(void);
 
+__attribute__((__noreturn__))
 int sceKernelPanic(const SceKernelDebugInfo *pInfo, const void *lr);
 
 int sceKernelVprintfLevel(SceUInt32 level, const char *fmt, va_list arg);
 int sceKernelVprintfWithInfo(SceUInt32 level, const SceKernelDebugInfo *pInfo, const char *fmt, va_list arg);
+
+__attribute__((__noreturn__))
 int sceKernelVprintfPanic(const SceKernelDebugInfo *pInfo, const void *lr, const char *fmt, va_list arg);
 
 
