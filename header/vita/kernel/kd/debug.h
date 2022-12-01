@@ -42,12 +42,12 @@ typedef enum SceKernelDebugInfoFlag {
 #if defined(__PSP2FILE__)
 #define SCE_KERNEL_ASSERT(__condition__) { \
 		static const SceKernelDebugInfo dbginfo = { \
-			.fileHash = 0, \
+			.fileHash = __PSP2FILEHASH__, \
 			.lineHash = 0, \
 			.funcHash = 0, \
-			.pFile = __PSP2FILE__, \
-			.line = __LINE__, \
-			.pFunc = __FUNCTION__ \
+			.pFile    = __PSP2FILE__, \
+			.line     = __PSP2LINE__, \
+			.pFunc    = __PSP2FUNC__ \
 		}; \
 		sceKernelAssert(__condition__, &dbginfo, __builtin_return_address(0)); \
 	}
@@ -57,9 +57,9 @@ typedef enum SceKernelDebugInfoFlag {
 			.fileHash = 0, \
 			.lineHash = 0, \
 			.funcHash = 0, \
-			.pFile = __FILE__, \
-			.line = __LINE__, \
-			.pFunc = __FUNCTION__ \
+			.pFile    = __FILE__, \
+			.line     = __LINE__, \
+			.pFunc    = __FUNCTION__ \
 		}; \
 		sceKernelAssert(__condition__, &dbginfo, __builtin_return_address(0)); \
 	}
@@ -69,12 +69,12 @@ typedef enum SceKernelDebugInfoFlag {
 #if defined(__PSP2FILE__)
 #define SCE_KERNEL_PRINTF_LEVEL_INFO(__level__, __flags__, __fmt__, ...) { \
 		static const SceKernelDebugInfo dbginfo = { \
-			.fileHash = 0, \
+			.fileHash = __PSP2FILEHASH__, \
 			.lineHash = 0, \
 			.funcHash = 0, \
-			.pFile = __PSP2FILE__, \
-			.line = __LINE__, \
-			.pFunc = __FUNCTION__ \
+			.pFile    = __PSP2FILE__, \
+			.line     = __PSP2LINE__, \
+			.pFunc    = __PSP2FUNC__ \
 		}; \
 		sceKernelPrintfLevelWithInfo(__level__, __flags__, &dbginfo, __fmt__, ##__VA_ARGS__); \
 	}
@@ -84,9 +84,9 @@ typedef enum SceKernelDebugInfoFlag {
 			.fileHash = 0, \
 			.lineHash = 0, \
 			.funcHash = 0, \
-			.pFile = __FILE__, \
-			.line = __LINE__, \
-			.pFunc = __FUNCTION__ \
+			.pFile    = __FILE__, \
+			.line     = __LINE__, \
+			.pFunc    = __FUNCTION__ \
 		}; \
 		sceKernelPrintfLevelWithInfo(__level__, __flags__, &dbginfo, __fmt__, ##__VA_ARGS__); \
 	}
