@@ -21,7 +21,6 @@ typedef enum SceKernelDebugLevel {
 	SCE_KERNEL_DEBUG_LEVEL_NUMBERS    /* The number of logging levels available. */
 } SceKernelDebugLevel;
 
-
 typedef struct SceKernelDebugInfo { // size is 0x18 on FW 3.60
 	SceUInt32 fileHash; // First 4 bytes of SHA1(__FILE__) - e.g. 0x123EC4E8 = "processmgr.c"
 	SceUInt32 lineHash; // First 4 bytes of SHA1("%s:%d" % (__FILE__, __LINE__)) - e.g. 0x7D3F4B00 = "boot.c:1868"
@@ -30,6 +29,14 @@ typedef struct SceKernelDebugInfo { // size is 0x18 on FW 3.60
 	SceUInt32 line;     // Line in file - ignored if pFile is NULL.
 	const char *pFunc;  // Pointer to function name - ignored if pFile is NULL.
 } SceKernelDebugInfo;
+
+typedef enum SceKernelDebugInfoFlag {
+	SCE_KERNEL_DEBUG_INFO_FLAG_NONE = 0,
+	SCE_KERNEL_DEBUG_INFO_FLAG_CORE = 1,
+	SCE_KERNEL_DEBUG_INFO_FLAG_FUNC = 2,
+	SCE_KERNEL_DEBUG_INFO_FLAG_LINE = 4,
+	SCE_KERNEL_DEBUG_INFO_FLAG_FILE = 8
+} SceKernelDebugInfoFlag;
 
 
 int sceKernelPrintf(const char *fmt, ...);
