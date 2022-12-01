@@ -93,6 +93,10 @@ typedef enum SceKernelDebugInfoFlag {
 #endif
 
 
+
+#define sceKernelPrintfDebug(__fmt__, ...) SCE_KERNEL_PRINTF_LEVEL_INFO(SCE_KERNEL_DEBUG_LEVEL_DEBUG, SCE_KERNEL_DEBUG_INFO_FLAG_CORE | SCE_KERNEL_DEBUG_INFO_FLAG_FUNC | SCE_KERNEL_DEBUG_INFO_FLAG_FILE, __fmt__, ##__VA_ARGS__);
+
+
 int sceKernelPrintf(const char *fmt, ...);
 int sceKernelPrintfLevel(SceUInt32 level, const char *fmt, ...);
 int sceKernelPrintfLevelWithInfo(SceUInt32 level, int flags, const SceKernelDebugInfo *pInfo, const char *fmt, ...);
