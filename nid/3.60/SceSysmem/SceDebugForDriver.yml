@@ -18,9 +18,9 @@ modules:
           sceKernelPanic: 0x391B5B74
           sceKernelPrintf: 0x391B74B7
           sceKernelPrintfLevel: 0x1A3F2AA4
-          sceKernelPrintfLevelWithCtx: 0xD9703808
+          sceKernelPrintfLevelWithInfo: 0xD9703808
           sceKernelVprintf: 0x411C0733
           sceKernelVprintfAssertLevel: 0x821A2D59
           sceKernelVprintfLevel: 0x611A158B
-          sceKernelVprintfLevelWithCtx: 0x02B04343
+          sceKernelVprintfWithInfo: 0x02B04343
           sceKernelVprintfPanic: 0x00CCE39C
