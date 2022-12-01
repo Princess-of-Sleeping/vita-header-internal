@@ -39,9 +39,63 @@ typedef enum SceKernelDebugInfoFlag {
 } SceKernelDebugInfoFlag;
 
 
+#if defined(__PSP2FILE__)
+#define SCE_KERNEL_ASSERT(__condition__) { \
+		static const SceKernelDebugInfo dbginfo = { \
+			.fileHash = 0, \
+			.lineHash = 0, \
+			.funcHash = 0, \
+			.pFile = __PSP2FILE__, \
+			.line = __LINE__, \
+			.pFunc = __FUNCTION__ \
+		}; \
+		sceKernelAssert(__condition__, &dbginfo, __builtin_return_address(0)); \
+	}
+#else
+#define SCE_KERNEL_ASSERT(__condition__) { \
+		static const SceKernelDebugInfo dbginfo = { \
+			.fileHash = 0, \
+			.lineHash = 0, \
+			.funcHash = 0, \
+			.pFile = __FILE__, \
+			.line = __LINE__, \
+			.pFunc = __FUNCTION__ \
+		}; \
+		sceKernelAssert(__condition__, &dbginfo, __builtin_return_address(0)); \
+	}
+#endif
+
+
+#if defined(__PSP2FILE__)
+#define SCE_KERNEL_PRINTF_LEVEL_INFO(__level__, __flags__, __fmt__, ...) { \
+		static const SceKernelDebugInfo dbginfo = { \
+			.fileHash = 0, \
+			.lineHash = 0, \
+			.funcHash = 0, \
+			.pFile = __PSP2FILE__, \
+			.line = __LINE__, \
+			.pFunc = __FUNCTION__ \
+		}; \
+		sceKernelPrintfLevelWithInfo(__level__, __flags__, &dbginfo, __fmt__, ##__VA_ARGS__); \
+	}
+#else
+#define SCE_KERNEL_PRINTF_LEVEL_INFO(__level__, __flags__, __fmt__, ...) { \
+		static const SceKernelDebugInfo dbginfo = { \
+			.fileHash = 0, \
+			.lineHash = 0, \
+			.funcHash = 0, \
+			.pFile = __FILE__, \
+			.line = __LINE__, \
+			.pFunc = __FUNCTION__ \
+		}; \
+		sceKernelPrintfLevelWithInfo(__level__, __flags__, &dbginfo, __fmt__, ##__VA_ARGS__); \
+	}
+#endif
+
+
 int sceKernelPrintf(const char *fmt, ...);
 int sceKernelPrintfLevel(SceUInt32 level, const char *fmt, ...);
-int sceKernelPrintfLevelWithInfo(SceUInt32 level, const SceKernelDebugInfo *pInfo, const char *fmt, ...);
+int sceKernelPrintfLevelWithInfo(SceUInt32 level, int flags, const SceKernelDebugInfo *pInfo, const char *fmt, ...);
 
 int sceKernelVprintf(const char *fmt, va_list arg);
 int sceKernelVprintfAssertLevel(SceUInt32 level, SceBool condition, const SceKernelDebugInfo *pInfo, const void *lr, const char *fmt, va_list arg);
