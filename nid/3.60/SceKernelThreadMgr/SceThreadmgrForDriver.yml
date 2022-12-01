@@ -2,7 +2,7 @@ version: 2
 firmware: 3.60
 modules:
   SceKernelThreadMgr:
-    nid: 0xF46ED7B2
+    fingerprint: 0xF46ED7B2
     libraries:
       SceThreadmgrForDriver:
         kernel: true
@@ -10,3 +10,16 @@ modules:
         functions:
           sceKernelCreateWorkQueue: 0x771522C6
           sceKernelScheduleWorkTask: 0xE50E1185
+          sceKernelChangeActiveCpuMask: 0x001173F8
+          sceKernelGetThreadCurrentPriority: 0x01414F0B
+          sceKernelSetThreadAccessLevel: 0x02EEDF17
+          sceKernelCreateRWLock: 0x04150799
+          sceKernelSetProcessIdToTLS: 0x0486F239
+          sceKernelChangeThreadSuspendStatus: 0x04C6764B
+          sceKernelGetCallbackCount: 0x0892D8DF
+          sceKernelGetThreadmgrUIDClass: 0x0A20775A
+          sceKernelDeleteMutex: 0x0A912340
+          sceKernelGetWorktaskCreateInfo: 0x0B604A3C
+          sceKernelWaitEventFlag: 0x0C1D3F20
+          sceKernelExitThread: 0x0C8A38E1
+          sceKernelRegisterTimerWithOpt: 0x10517330

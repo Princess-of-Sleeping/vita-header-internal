@@ -2,7 +2,7 @@ version: 2
 firmware: 3.60
 modules:
   SceSysmem:
-    nid: 0x3380B323
+    fingerprint: 0x3380B323
     libraries:
       SceSysmemForDriver:
         kernel: true

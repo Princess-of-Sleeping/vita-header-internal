@@ -1,8 +1,8 @@
 version: 2
-firmware: 3.60
+firmware: 3.61
 modules:
   SceSysmem:
-    nid: 0x3380B323
+    fingerprint: 0
     libraries:
       SceDebugForDriver:
         kernel: true
@@ -18,9 +18,9 @@ modules:
           sceKernelPanic: 0x391B5B74
           sceKernelPrintf: 0x391B74B7
           sceKernelPrintfLevel: 0x1A3F2AA4
-          sceKernelPrintfLevelWithCtx: 0xD9703808
+          sceKernelPrintfLevelWithInfo: 0xD9703808
+          sceKernelPrintfWithInfo: 0x02B04343
           sceKernelVprintf: 0x411C0733
           sceKernelVprintfAssertLevel: 0x821A2D59
           sceKernelVprintfLevel: 0x611A158B
-          sceKernelVprintfLevelWithCtx: 0x02B04343
           sceKernelVprintfPanic: 0x00CCE39C
