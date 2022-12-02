@@ -2,7 +2,7 @@ version: 2
 firmware: 3.60
 modules:
   SceKernelThreadMgr:
-    fingerprint: 0xF46ED7B2
+    # fingerprint: 0xF46ED7B2
     libraries:
       SceThreadmgrForDriver:
         kernel: true

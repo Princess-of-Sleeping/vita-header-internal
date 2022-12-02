@@ -2,7 +2,7 @@ version: 2
 firmware: 3.61
 modules:
   SceSysmem:
-    fingerprint: 0
+    # fingerprint: 0
     libraries:
       SceDebugForDriver:
         kernel: true
