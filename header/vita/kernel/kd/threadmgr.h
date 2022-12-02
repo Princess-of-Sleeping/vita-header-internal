@@ -98,7 +98,6 @@ extern "C" {
           SceThreadmgrForDriver_FDC044AC: 0xFDC044AC
           SceThreadmgrForDriver_FF8DA217: 0xFF8DA217
           SceThreadmgrForKernel_33E85E9E: 0x33E85E9E
-          _sceKernelExtendKernelStackWide: 0xE54FD746
           sceKernelAllocateKTLS: 0xB645C7EF
           sceKernelCancelAlarm: 0x44CCF310
           sceKernelCancelCallback: 0xC040EC1C
@@ -147,8 +146,6 @@ extern "C" {
           sceKernelDeleteThread: 0xAC834F3F
           sceKernelExitDeleteThread: 0x1D17DECF
           sceKernelExitThread: 0x0C8A38E1
-          sceKernelExtendKernelStackWide: 0xA2C801A5
-          sceKernelFinalizeFastMutex: 0x11FE84A1
           sceKernelGetCallbackCount: 0x0892D8DF
           sceKernelGetCurrentThreadUnkInfo: 0x332E127C
           sceKernelGetCurrentThreadVfpException: 0x14F8167C
@@ -167,8 +164,6 @@ extern "C" {
           sceKernelGetRWLockInfo: 0x374C3267
           sceKernelGetRWLockInfoAllProc: 0x6624E612
           sceKernelGetSemaInfo: 0xC99DCF0D
-          sceKernelGetSystemTimeLow: 0x47F6DE49
-          sceKernelGetSystemTimeWide: 0xF4EE4FA9
           sceKernelGetTHBP: 0x453B764A
           sceKernelGetThreadCpuAffinityMask: 0x83DC703D
           sceKernelGetThreadCpuRegisters: 0x5022689D
@@ -193,10 +188,8 @@ extern "C" {
           sceKernelGetWorkqueueInfoVector: 0x920EA1CA
           sceKernelGetWorktaskCreateInfo: 0x0B604A3C
           sceKernelGetWorktaskInfoVector: 0xE605ED7A
-          sceKernelInitializeFastMutex: 0xAF8E1266
           sceKernelIsThreadDebugSuspended: 0xA0B1AB21
           sceKernelIsUserModeThread: 0x91382762
-          sceKernelLockFastMutex: 0x70627F3A
           sceKernelLockMutexCB_089: 0xD06F2886
           sceKernelLockMutex_089: 0x16AC80C5
           sceKernelNotifyCallback: 0xC3E00919
@@ -237,7 +230,6 @@ extern "C" {
           sceKernelTryLockWriteRWLock: 0xA96F2E5A
           sceKernelTryReceiveMsgPipeVector: 0xCE09221A
           sceKernelTrySendMsgPipeVector: 0x4CF1BE58
-          sceKernelUnlockFastMutex: 0xDB395782
           sceKernelUnlockMutex_089: 0x1E82E5D0
           sceKernelUnlockReadRWLock: 0xDE1B9EEE
           sceKernelUnlockWriteRWLock: 0x94A73797
@@ -256,6 +248,23 @@ extern "C" {
           sceKernelWaitWorktask: 0x12FC0FAB
           sceKernelWaitWorktask2: 0xB247EC4B
 */
+
+int _sceKernelExtendKernelStackWide(SceSize stackSize, int (* f)(void *argp), void *argp);
+int sceKernelExtendKernelStackWide(SceSize stackSize, int (* f)(void *argp), void *argp);
+
+
+typedef struct SceKernelFastMutex {
+	char data[0x40];
+} SceKernelFastMutex;
+
+int sceKernelInitializeFastMutex(SceKernelFastMutex *mutex, const char* name, SceUInt32 attr, void *opt);
+int sceKernelFinalizeFastMutex(SceKernelFastMutex *mutex);
+int sceKernelLockFastMutex(SceKernelFastMutex *mutex);
+int sceKernelUnlockFastMutex(SceKernelFastMutex *mutex);
+
+
+SceUInt32 sceKernelGetSystemTimeLow(void);
+SceUInt64 sceKernelGetSystemTimeWide(void);
 
 
 #ifdef __cplusplus
