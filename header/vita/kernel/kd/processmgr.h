@@ -6,6 +6,10 @@
 #include <vita/kernel/kd/sysmem/phymempart.h>
 
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 
 #define SCE_KERNEL_PROCESS_CURRENT_PROCESS_BUDGET (0)
 
@@ -79,6 +83,11 @@ typedef struct SceKernelBudgetInfoForDebugger { // size is 0x480-bytes
 } SceKernelBudgetInfoForDebugger;
 
 int sceKernelGetBudgetInfoForDebugger(SceUID budgetId, SceUInt32 level, SceKernelBudgetInfoForDebugger *info);
+
+
+#ifdef __cplusplus
+}
+#endif
 
 
 #endif /* _PSP2_KERNEL_PROCESSMGR_H_ */

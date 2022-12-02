@@ -8,6 +8,11 @@
 #include <vita/kernel/kd/sysmem/phymempart.h>
 
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
+
 typedef struct SceUIDAddressSpaceObject SceUIDAddressSpaceObject;
 
 
@@ -122,5 +127,11 @@ SceUIDAddressSpaceObject *sceKernelGetKernelAddressSpace(void);
           sceKernelAddressSpaceVARangeToPAVector: 0xF7250E6C
           sceKernelAddressSpaceVAtoPA: 0xF2179820
 */
+
+
+#ifdef __cplusplus
+}
+#endif
+
 
 #endif /* _PSP2_KERNEL_AS_H_ */

@@ -5,6 +5,11 @@
 #include <vita/shared/types.h>
 
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
+
 /*
           sceUIDCreateEntryHeap: 0x19CAEF35
           sceUIDDeleteEntryHeap: 0xF0C3FCFC
@@ -24,6 +29,11 @@ typedef struct SceUIDEntryHeapInfo { // size is 0x18-bytes
 } SceUIDEntryHeapInfo;
 
 int sceUIDEntryHeapGetInfo(SceUID entry_id, SceUIDEntryHeapInfo *info);
+
+
+#ifdef __cplusplus
+}
+#endif
 
 
 #endif /* _PSP2_KERNEL_UID_ENTRY_HEAP_H_ */

@@ -5,6 +5,11 @@
 #include <vita/shared/types.h>
 
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
+
 /*
           sceKernelCreateHeap: 0x9328E0E8
           sceKernelDeleteHeap: 0xD6437637
@@ -33,6 +38,11 @@ int SceSysmemForKernel_FDC0EA11(SceUID heapid, int a2, int a3); // realloc?
 int sceKernelShrinkHeap(SceUID heapid);
 
 int sceKernelVerifyHeap(SceUID heapid, void *ptr);
+
+
+#ifdef __cplusplus
+}
+#endif
 
 
 #endif /* _PSP2_KERNEL_SYSMEM_HEAP_H_ */

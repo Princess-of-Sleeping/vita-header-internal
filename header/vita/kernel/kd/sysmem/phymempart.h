@@ -6,6 +6,10 @@
 #include <vita/kernel/kd/sysmem/uid_class.h>
 
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 
 typedef struct SceUIDPhyMemPartObject { // size is 0xAC-bytes
 	void *pUserdata;
@@ -99,6 +103,11 @@ typedef struct SceKernelPhyMemPartInfo { // size is 0xB0-bytes
 } SceKernelPhyMemPartInfo;
 
 int sceKernelGetPhyMemPartInfoForDebugger(void *pPhyMemPart, SceKernelPhyMemPartInfo *info);
+
+
+#ifdef __cplusplus
+}
+#endif
 
 
 #endif /* _PSP2_KERNEL_SYSMEM_PHYMEMPART_H_ */

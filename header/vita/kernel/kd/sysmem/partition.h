@@ -5,6 +5,11 @@
 #include <vita/shared/types.h>
 
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
+
 typedef struct SceUIDAddressSpaceObject SceUIDAddressSpaceObject;
 
 
@@ -64,6 +69,11 @@ typedef struct SceKernelPartitionInfo { // size is 0x30-bytes
 } SceKernelPartitionInfo;
 
 int sceKernelPartitionGetInfo(SceUID part_id, SceKernelPartitionInfo *info);
+
+
+#ifdef __cplusplus
+}
+#endif
 
 
 #endif /* _PSP2_KERNEL_SYSMEM_PARTITION_H_ */

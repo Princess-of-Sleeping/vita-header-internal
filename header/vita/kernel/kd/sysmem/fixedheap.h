@@ -5,6 +5,11 @@
 #include <vita/shared/types.h>
 
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
+
 typedef struct SceKernelFixedHeapInfo { // size is 0x90-bytes
 	SceSize size;
 	SceSize objectSize;
@@ -45,6 +50,11 @@ typedef struct SceKernelFixedHeapInfo { // size is 0x90-bytes
           sceKernelGetFixedHeapInfo: 0x4FA4A624
           sceKernelGetFixedHeapInfoByPointer: 0x219E90FD
 */
+
+
+#ifdef __cplusplus
+}
+#endif
 
 
 #endif /* _PSP2_KERNEL_FIXEDHEAP_H_ */
