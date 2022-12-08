@@ -1,0 +1,8 @@
+MODULE: 1.800.071-3.570.011 SceLibLocationInternal
+
+LIBRARY: SceLibLocationInternal
+LIBRARY_MODE: user
+LIBRARY_INFO: 1 0x098B0C75 1.800.071-3.570.011
+
+
+

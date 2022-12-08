@@ -1,0 +1,8 @@
+MODULE: 2.500.071-3.570.011 SceTeleportClient
+
+LIBRARY: SceTeleportClient
+LIBRARY_MODE: user
+LIBRARY_INFO: 1 0xE68FB26D 2.500.071-3.570.011
+
+
+

@@ -1,0 +1,8 @@
+MODULE: 1.500.151-1.692.000 SceUsbstorVStorDriver
+
+LIBRARY: SceUsbstorVStorForDriver
+LIBRARY_MODE: kernel
+LIBRARY_INFO: 1 0xFD5BA349 1.500.151-1.692.000
+
+
+

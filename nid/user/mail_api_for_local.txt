@@ -1,0 +1,8 @@
+MODULE: 2.000.081-3.570.011 mail_api_for_local
+
+LIBRARY: mail_api_for_local
+LIBRARY_MODE: user
+LIBRARY_INFO: 1 0xFC322686 2.000.081-3.570.011
+
+
+

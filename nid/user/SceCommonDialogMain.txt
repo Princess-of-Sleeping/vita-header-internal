@@ -1,0 +1,8 @@
+MODULE: 1.000.071-3.570.011 SceCommonDialogMain
+
+LIBRARY: SceCommonDialogMain
+LIBRARY_MODE: user
+LIBRARY_INFO: 1 0xDCF776D9 1.000.071-3.570.011
+
+
+

@@ -1,0 +1,8 @@
+MODULE: 1.000.071-1.060.031 SceShellProcessEvent
+
+LIBRARY: SceProcessEventUtil
+LIBRARY_MODE: user
+LIBRARY_INFO: 1 0x1CED08C3 1.000.071-1.060.031
+
+
+

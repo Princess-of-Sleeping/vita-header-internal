@@ -1,0 +1,8 @@
+MODULE: 2.500.071-3.570.011 SceLibLocationDolceProvide
+
+LIBRARY: SceLibLocationDolceProvide
+LIBRARY_MODE: user
+LIBRARY_INFO: 1 0x05DD40B5 2.500.071-3.570.011
+
+
+

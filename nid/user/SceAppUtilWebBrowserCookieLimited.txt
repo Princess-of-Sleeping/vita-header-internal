@@ -1,0 +1,8 @@
+MODULE: 1.800.071-1.810.021 SceAppUtil
+
+LIBRARY: SceAppUtilWebBrowserCookieLimited
+LIBRARY_MODE: user
+LIBRARY_INFO: 1 0x9A7D8FE8 1.800.071-1.810.021
+
+
+

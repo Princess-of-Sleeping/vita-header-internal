@@ -1,0 +1,8 @@
+MODULE: 1.500.151-3.570.011 SceNotificationUtil
+
+LIBRARY: SceNotificationUtilBgApp
+LIBRARY_MODE: user
+LIBRARY_INFO: 1 0xA8AEF7DB 1.500.151-3.570.011
+
+
+

@@ -1,0 +1,8 @@
+MODULE: 1.000.071-1.692.000 SceSblUpdateMgr
+
+LIBRARY: SceSblSsUpdateMgrAdditional
+LIBRARY_MODE: user
+LIBRARY_INFO: 1 0xBDD7A86F 1.000.071-1.692.000
+
+
+

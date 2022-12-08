@@ -1,0 +1,8 @@
+MODULE: 1.800.071-3.570.011 SceCodecEngineWrapper
+
+LIBRARY: SceCodecEngineWrapper
+LIBRARY_MODE: user
+LIBRARY_INFO: 1 0x5C9EE5B9 1.800.071-3.570.011
+
+
+
