@@ -12,7 +12,6 @@ FUNCTION: sceEventLogPut
 FUNCTION_NID: 0x912CF2BA 2.500.071-3.740.011
 FUNCTION: sceKernelAssert
 FUNCTION_NID: 0x35A35322 0.990.000-3.740.011
-DEFINE_DEV: 1.700.000 int(SceBool cond, SceUInt32 filehash, const char *file, SceUInt32 linehash, int line, SceUInt32 funchash, const char *func, void *lr);
 FUNCTION: sceKernelAssertLevel
 FUNCTION_NID: 0xFD753E7A 0.990.000-3.740.011
 FUNCTION: sceKernelGetAssertLevel
