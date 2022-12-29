@@ -1,0 +1,575 @@
+
+
+
+
+
+NIDCompatDBLibrary *nidcompat_search_library_by_name(const char *name){
+
+	NIDCompatDBLibrary *library;
+
+	if(g_NIDCompatDB == NULL){
+		return NULL;
+	}
+
+	library = g_NIDCompatDB->library;
+
+	while(library != NULL){
+		if(strcmp(library->name, name) == 0){
+			break;
+		}
+		library = library->next;
+	}
+
+	return library;
+}
+
+NIDCompatDBRange *nidcompat_search_ent_range_by_nid(const NIDCompatDBEntry *ent, uint32_t nid){
+
+	NIDCompatDBRange *range;
+
+	range = ent->range.head;
+
+	while(range != NULL){
+		if(((uint32_t *)(range->argp))[0] == nid){
+			break;
+		}
+		range = range->next;
+	}
+
+	return range;
+}
+
+int write_as_yml(const char *path, uint32_t fw){
+
+	int res;
+	const NIDCompatDB *module_db = g_NIDCompatDB;
+	const NIDCompatDBRange *result;
+
+	res = search_range(fw, module_db->range.head, &result);
+	if(res == 0){
+		printf("no module in 0x%X\n", fw);
+		return -1;
+	}
+
+	FILE *fd = fopen(path, "wb");
+
+	fprintf(fd, "version: %d\n", 2);
+	fprintf(fd, "modules:\n");
+	fprintf(fd, "  %s:\n", (char *)result->argp);
+	fprintf(fd, "    libraries:\n");
+
+	NIDCompatDBLibrary *library = module_db->library;
+
+	while(library != NULL){
+
+		res = search_range(fw, library->range.head, &result);
+		if(res != 0){
+			fprintf(fd, "      %s:\n", library->name);
+			fprintf(fd, "        kernel: %s\n", (library->is_kernel == 1) ? "true" : "false");
+			fprintf(fd, "        version: %d\n", ((uint32_t *)(result->argp))[1]);
+			fprintf(fd, "        nid: 0x%08X\n", ((uint32_t *)(result->argp))[0]);
+
+			int flag = 0;
+
+			NIDCompatDBEntry *ent = library->function;
+			while(ent != NULL){
+				res = search_range(fw, ent->range.head, &result);
+				if(res != 0){
+					if(flag == 0){
+						fprintf(fd, "        functions:\n");
+						flag = 1;
+					}
+					fprintf(fd, "          %s: 0x%08X\n", ent->name, ((uint32_t *)(result->argp))[0]);
+				}
+
+				ent = ent->next;
+			}
+
+			flag = 0;
+
+			ent = library->variable;
+			while(ent != NULL){
+				res = search_range(fw, ent->range.head, &result);
+				if(res != 0){
+					if(flag == 0){
+						fprintf(fd, "        variables:\n");
+						flag = 1;
+					}
+					fprintf(fd, "          %s: 0x%08X\n", ent->name, ((uint32_t *)(result->argp))[0]);
+				}
+
+				ent = ent->next;
+			}
+		}
+
+		library = library->next;
+	}
+
+	fclose(fd);
+	fd = NULL;
+
+	return 0;
+}
+
+int nidcompat_new(uint32_t target_fw, uint32_t va, void *segment, const SceModuleEntryPoint *ep){
+
+	char module_name[0x1C];
+	int is_added_library;
+
+	strncpy(module_name, ep->name, 0x1B);
+	module_name[0x1B] = 0;
+
+	// printf("[%-27s] libent_top: 0x%08X libent_btm: 0x%08X\n", module_name, ep->libent_top, ep->libent_btm);
+
+	SceModuleExport *pExport = segment + ep->libent_top;
+
+	while(pExport != (segment + ep->libent_btm)){
+
+		const SceUInt32 *nidtable = segment + (pExport->table_nid - va);
+		const SceUIntPtr *enttable = segment + (pExport->table_entry - va);
+
+		if(pExport->libname == 0){
+
+			for(int n=0;n<pExport->entry_num_variable;n++){
+				SceUInt32 nid = nidtable[pExport->entry_num_function + n];
+				SceUInt32 ent = enttable[pExport->entry_num_function + n];
+
+				SceUIntPtr *pent = segment + (ent - va);
+
+				if(nid == 0x936C8A78){
+					target_fw = *pent;
+				}
+			}
+		}
+		pExport++;
+	}
+
+	is_added_library = 0;
+
+	pExport = segment + ep->libent_top;
+
+	while(pExport != (segment + ep->libent_btm)){
+
+		const SceUInt32 *nidtable = segment + (pExport->table_nid - va);
+		const SceUIntPtr *enttable = segment + (pExport->table_entry - va);
+
+		if(pExport->libname == 0){
+		}else{
+			const char *libname = segment + (pExport->libname - va);
+
+			// printf("pExport: %s\n", libname);
+			NIDCompatDBLibrary *library = nidcompat_search_library_by_name(libname);
+			if(library != NULL){
+				is_added_library = 1;
+				NIDCompatDBRange *range = library->range.head;
+				while(range != NULL){
+					if(((uint32_t *)(range->argp))[0] == pExport->libnid && ((uint32_t *)(range->argp))[1] == pExport->version){
+
+						if(target_fw < range->from){
+							range->from = target_fw;
+						}
+
+						if(target_fw > range->to){
+							range->to = target_fw;
+						}
+						break;
+					}
+
+					range = range->next;
+				}
+
+				if(range == NULL){
+					range = nidcompat_malloc(sizeof(*range));
+					range->next = NULL;
+					range->from = target_fw;
+					range->to   = target_fw;
+					range->argp = nidcompat_malloc(8);
+					((uint32_t *)(range->argp))[0] = pExport->libnid;
+					((uint32_t *)(range->argp))[1] = (uint32_t)(pExport->version);
+
+					nidcompat_add_range(&(library->range), range);
+				}
+
+				NIDCompatDBEntry *lib_ent_top = library->function;
+
+				for(int n=0;n<pExport->entry_num_function;n++){
+					SceUInt32 nid = nidtable[n];
+
+					NIDCompatDBEntry *lib_ent = lib_ent_top;
+
+					while(lib_ent != NULL){
+						NIDCompatDBRange *range = nidcompat_search_ent_range_by_nid(lib_ent, nid);
+						if(range != NULL){
+							if(target_fw < range->from){
+								range->from = target_fw;
+							}
+
+							if(target_fw > range->to){
+								range->to = target_fw;
+							}
+							break;
+						}
+						lib_ent = lib_ent->next;
+					}
+
+					if(lib_ent == NULL){
+
+						char ent_name[0x110];
+
+						snprintf(ent_name, sizeof(ent_name), "%s_%08X", libname, nid);
+
+						lib_ent = nidcompat_malloc(sizeof(*lib_ent));
+						memset(lib_ent, 0, sizeof(*lib_ent));
+						name_copyin(ent_name, &(lib_ent->name));
+
+
+						NIDCompatDBRange *range;
+
+						range = nidcompat_malloc(sizeof(*range));
+						memset(range, 0, sizeof(*range));
+
+						range->from = target_fw;
+						range->to   = target_fw;
+						range->argp = nidcompat_malloc(4);
+						((uint32_t *)(range->argp))[0] = nid;
+
+						nidcompat_add_range();
+
+						if(library->function == NULL){
+							library->function = lib_ent;
+						}
+
+						if(library->function_tail != NULL){
+							library->function_tail->next = lib_ent;
+						}
+
+						library->function_tail = lib_ent;
+					}
+				}
+
+
+				lib_ent_top = library->variable;
+
+				for(int n=0;n<pExport->entry_num_variable;n++){
+					SceUInt32 nid = nidtable[pExport->entry_num_function + n];
+
+					NIDCompatDBEntry *lib_ent = lib_ent_top;
+
+					while(lib_ent != NULL){
+						NIDCompatDBRange *range = nidcompat_search_ent_range_by_nid(lib_ent, nid);
+						if(range != NULL){
+							if(target_fw < range->from){
+								range->from = target_fw;
+							}
+
+							if(target_fw > range->to){
+								range->to = target_fw;
+							}
+							break;
+						}
+						lib_ent = lib_ent->next;
+					}
+
+					if(lib_ent == NULL){
+
+						char ent_name[0x110];
+
+						snprintf(ent_name, sizeof(ent_name), "%s_%08X", libname, nid);
+
+						lib_ent = nidcompat_malloc(sizeof(*lib_ent));
+						memset(lib_ent, 0, sizeof(*lib_ent));
+						name_copyin(ent_name, &(lib_ent->name));
+
+						NIDCompatDBRange *range;
+
+						range = nidcompat_malloc(sizeof(*range));
+						memset(range, 0, sizeof(*range));
+						range->from = target_fw;
+						range->to   = target_fw;
+						range->argp = nidcompat_malloc(4);
+						((uint32_t *)(range->argp))[0] = nid;
+
+						nidcompat_add_range(&(lib_ent->range), range);
+					}
+				}
+			}
+		}
+		pExport++;
+	}
+
+	NIDCompatDBRange *range = g_NIDCompatDB->range.head;
+	while(range != NULL){
+		if(strcmp(range->argp, module_name) == 0){
+			if(target_fw < range->from){
+				range->from = target_fw;
+			}
+
+			if(target_fw > range->to){
+				range->to = target_fw;
+			}
+			break;
+		}
+		range = range->next;
+	}
+
+	if(range == NULL && is_added_library != 0){
+		range = nidcompat_malloc(sizeof(*range));
+		range->next = NULL;
+		range->from = target_fw;
+		range->to   = target_fw;
+		name_copyin(module_name, (char **)&(range->argp));
+
+		nidcompat_add_range(&(g_NIDCompatDB->range), range);
+	}
+
+	return is_added_library;
+}
+
+
+
+int nidcompat_new_library(const char *path, uint32_t target_fw, uint32_t va, void *segment, const SceModuleEntryPoint *ep){
+
+	char module_name[0x1C];
+	int is_added_library;
+
+	strncpy(module_name, ep->name, 0x1B);
+	module_name[0x1B] = 0;
+
+	// printf("%s\n", module_name);
+
+	SceModuleExport *pExport = segment + ep->libent_top;
+
+	while(pExport != (segment + ep->libent_btm)){
+
+		const SceUInt32 *nidtable = segment + (pExport->table_nid - va);
+		const SceUIntPtr *enttable = segment + (pExport->table_entry - va);
+
+		if(pExport->libname == 0){
+
+			for(int n=0;n<pExport->entry_num_variable;n++){
+				SceUInt32 nid = nidtable[pExport->entry_num_function + n];
+				SceUInt32 ent = enttable[pExport->entry_num_function + n];
+
+				SceUIntPtr *pent = segment + (ent - va);
+
+				if(nid == 0x936C8A78){
+					target_fw = *pent;
+				}
+			}
+		}
+		pExport++;
+	}
+
+	is_added_library = 0;
+
+	pExport = segment + ep->libent_top;
+
+	while(pExport != (segment + ep->libent_btm)){
+
+		const SceUInt32 *nidtable = segment + (pExport->table_nid - va);
+		const SceUIntPtr *enttable = segment + (pExport->table_entry - va);
+
+		if(pExport->libname == 0){
+		}else{
+			const char *libname = segment + (pExport->libname - va);
+
+			char txt_path[0x400];
+
+			snprintf(txt_path, sizeof(txt_path), "%s/%s.txt", path, libname);
+
+
+			FILE *fd = fopen(txt_path, "wb");
+
+			fprintf(
+				fd,
+				"MODULE: %X.%03X.%03X %s\n\n",
+				(target_fw >> 24) & 0xFF, (target_fw >> 12) & 0xFFF, (target_fw >> 0) & 0xFFF,
+				module_name
+			);
+
+			fprintf(fd, "LIBRARY: %s\n", libname);
+			if(strstr(libname, "ForDriver") != NULL || strstr(libname, "ForKernel") != NULL || strstr(libname, "ForDebugger") != NULL){
+				fprintf(fd, "LIBRARY_MODE: %s\n", "kernel");
+			}else{
+				fprintf(fd, "LIBRARY_MODE: %s\n", "user");
+			}
+
+			fclose(fd);
+			fd = NULL;
+		}
+		pExport++;
+	}
+
+	return 0;
+}
+
+
+
+
+
+
+
+
+
+// main
+
+
+
+	int res;
+	FILE *fd;
+
+	if(argc < 2){
+usage:
+		printf("usage: ./nidcompat mode [args...]");
+		printf("\t./nidcompat yml version ./input.txt ./output");
+		printf("\t./nidcompat add version ./module.elf ./input.txt ./output.txt");
+		printf("\t./nidcompat new version ./module.elf ./outputdir/");
+		return EXIT_FAILURE;
+	}
+
+	if(strcmp(argp[1], "yml") == 0){
+
+		if(argc < 5){
+			goto usage;
+		}
+
+		uint32_t target_fw = 0xDEADBEEF;
+
+		parse_fw_string(argp[2], &target_fw);
+
+		char *txt = NULL;
+
+		read_text_file(argp[3], &txt, NULL);
+
+		if(txt == NULL){
+			printf("Failed file read\n");
+			return EXIT_FAILURE;
+		}
+
+		nidcompat_parse(txt, res);
+		// printf("nidcompat_memory_usage_rate: 0x%lX\n", nidcompat_memory_usage_rate);
+
+		write_as_yml(argp[4], target_fw);
+
+		exit_g_NIDCompatDB();
+		nidcompat_free(txt);
+
+	}else if(strcmp(argp[1], "add") == 0){
+
+		if(argc < 6){
+			goto usage;
+		}
+
+		uint32_t target_fw = 0xDEADBEEF;
+
+		parse_fw_string(argp[2], &target_fw);
+
+		// printf("target fw: 0x%X\n", target_fw);
+
+		void *elf_data = NULL;
+		char *txt = NULL;
+
+		read_file(argp[3], &elf_data, NULL);
+
+		Elf32_Ehdr *pEhdr = (Elf32_Ehdr *)(elf_data);
+		Elf32_Phdr *pPhdr = (Elf32_Phdr *)(elf_data + pEhdr->e_phoff);
+
+		if(strncmp(&(pEhdr->e_ident[1]), "ELF", 3) == 0 && (pEhdr->e_type & 0xFF00) == 0xFE00 && pEhdr->e_machine == EM_ARM && pEhdr->e_entry != 0){
+
+			read_text_file(argp[4], &txt, NULL);
+
+			if(txt == NULL){
+				printf("Failed file read\n");
+				return EXIT_FAILURE;
+			}
+
+			nidcompat_parse(txt, res);
+			// printf("nidcompat_memory_usage_rate: 0x%lX\n", nidcompat_memory_usage_rate);
+
+			for(int i=0;i<pEhdr->e_phnum;i++){
+				void *segment = (void *)(elf_data + pPhdr[i].p_offset);
+
+				if(pPhdr[i].p_type == 1 && (pPhdr[i].p_flags & 7) == 5){
+					const SceModuleEntryPoint *ep = (const SceModuleEntryPoint *)(segment + pEhdr->e_entry);
+					res = nidcompat_new(target_fw, pPhdr[i].p_vaddr, segment, ep);
+				}
+			}
+
+			if(res == 1){
+				nidcompat_save_current_db(argp[5]);
+			}
+
+			nidcompat_free(txt);
+			exit_g_NIDCompatDB();
+		}
+
+		nidcompat_free(elf_data);
+	}else if(strcmp(argp[1], "new") == 0){
+
+		if(argc < 5){
+			goto usage;
+		}
+
+		uint32_t target_fw = 0xDEADBEEF;
+
+		parse_fw_string(argp[2], &target_fw);
+
+		// printf("target fw: 0x%X\n", target_fw);
+
+		void *elf_data = NULL;
+
+		read_file(argp[3], &elf_data, NULL);
+
+		Elf32_Ehdr *pEhdr = (Elf32_Ehdr *)(elf_data);
+		Elf32_Phdr *pPhdr = (Elf32_Phdr *)(elf_data + pEhdr->e_phoff);
+
+		if(strncmp(&(pEhdr->e_ident[1]), "ELF", 3) == 0 && (pEhdr->e_type & 0xFF00) == 0xFE00 && pEhdr->e_machine == EM_ARM && pEhdr->e_entry != 0){
+
+			for(int i=0;i<pEhdr->e_phnum;i++){
+				void *segment = (void *)(elf_data + pPhdr[i].p_offset);
+
+				if(pPhdr[i].p_type == 1 && (pPhdr[i].p_flags & 7) == 5){
+					const SceModuleEntryPoint *ep = (const SceModuleEntryPoint *)(segment + pEhdr->e_entry);
+					nidcompat_new_library(argp[4], target_fw, pPhdr[i].p_vaddr, segment, ep);
+				}
+			}
+		}
+
+		nidcompat_free(elf_data);
+		elf_data = NULL;
+	}
+
+	if(nidcompat_memory_usage_rate != 0){
+		printf("Warning: has memory leak/not free'd memory.\n");
+		printf("nidcompat_memory_usage_rate: 0x%lX\n", nidcompat_memory_usage_rate);
+	}
+
+	return 0;
+
+
+
+
+
+
+
+
+
+
+int search_range(uint32_t fw, const NIDCompatDBRange *range, const NIDCompatDBRange **result){
+
+	while(range != NULL){
+		if(range->from <= fw && fw <= range->to){
+			*result = range;
+			return 1;
+		}
+		range = range->next;
+	}
+
+	return 0;
+}
+
+
+
+
+
+
