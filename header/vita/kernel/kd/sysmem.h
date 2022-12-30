@@ -204,7 +204,7 @@ int SceSysmemForKernel_17F1AA22(int a1); // beta only
 
 
 // VM
-int SceSysmemForKernel_D514BB56(void); // get isVMOpened
+int SceSysmemForKernel_D514BB56(void); // get GetVMState
 
 
 #ifdef __cplusplus
