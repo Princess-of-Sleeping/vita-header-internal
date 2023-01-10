@@ -1,4 +1,11 @@
 
+#ifndef _PSP2_KERNEL_MODULEMGR_INTERNAL_H_
+#define _PSP2_KERNEL_MODULEMGR_INTERNAL_H_
+
+
+#include <psp2kern/types.h>
+
+
 typedef struct SceModuleLibEnt SceModuleLibEnt;
 typedef struct SceModuleCB SceModuleCB;
 
@@ -230,3 +237,6 @@ typedef struct SceKernelLibraryDB { // size is 0x24-bytes
 	SceAddr2ModCB *Addr2ModTbls;
 	SceUInt32 mutex;
 } SceKernelLibraryDB;
+
+
+#endif /* _PSP2_KERNEL_MODULEMGR_INTERNAL_H_ */
