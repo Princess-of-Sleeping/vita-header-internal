@@ -71,7 +71,7 @@ typedef struct SceModuleClient { // size is 0x18-bytes
 	SceModuleImport *Import;
 	SceModuleLibEnt *LibEnt;
 	SceModuleCB *Module;
-	ScePVoid stubtbl; // stub pointer + stub nids
+	ScePVoid stubtbl; // Required the dipsw 0xD2. stub pointer + stub nids
 } SceModuleClient;
 
 typedef struct SceModuleLibEnt { // size is 0x2C-bytes
