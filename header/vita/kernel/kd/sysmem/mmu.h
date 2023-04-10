@@ -2,7 +2,7 @@
 #ifndef _PSP2_KERNEL_SYSMEM_MMU_H_
 #define _PSP2_KERNEL_SYSMEM_MMU_H_
 
-#include <vita/shared/types.h>
+#include <shared/types.h>
 
 
 #ifdef __cplusplus

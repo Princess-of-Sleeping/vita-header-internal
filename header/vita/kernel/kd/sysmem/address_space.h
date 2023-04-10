@@ -2,10 +2,10 @@
 #ifndef _PSP2_KERNEL_AS_H_
 #define _PSP2_KERNEL_AS_H_
 
-#include <vita/shared/types.h>
-#include <vita/kernel/kd/sysmem/uid_class.h>
-#include <vita/kernel/kd/sysmem/partition.h>
-#include <vita/kernel/kd/sysmem/phymempart.h>
+#include <shared/types.h>
+#include <kernel/kd/sysmem/uid_class.h>
+#include <kernel/kd/sysmem/partition.h>
+#include <kernel/kd/sysmem/phymempart.h>
 
 
 #ifdef __cplusplus

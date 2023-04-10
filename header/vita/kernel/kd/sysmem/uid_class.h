@@ -1,8 +1,8 @@
 
-#ifndef _PSP2_KERNEL_SYSMEM_UID_CLASS_H_
-#define _PSP2_KERNEL_SYSMEM_UID_CLASS_H_
+#ifndef _PSP2KERN_KERNEL_SYSMEM_UID_CLASS_H_
+#define _PSP2KERN_KERNEL_SYSMEM_UID_CLASS_H_
 
-#include <vita/shared/types.h>
+#include <shared/types.h>
 
 
 #ifdef __cplusplus
@@ -38,4 +38,4 @@ typedef struct SceClass { // size is 0x2C-bytes
 #endif
 
 
-#endif /* _PSP2_KERNEL_SYSMEM_UID_CLASS_H_ */
+#endif /* _PSP2KERN_KERNEL_SYSMEM_UID_CLASS_H_ */

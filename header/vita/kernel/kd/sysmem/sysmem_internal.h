@@ -6,7 +6,7 @@
 extern "C" {
 #endif
 
-#include <vita/shared/types.h>
+#include <shared/types.h>
 
 
 typedef struct SceKernelAllocMemBlockOptKernel { // size is 0x58 on FW 3.60
