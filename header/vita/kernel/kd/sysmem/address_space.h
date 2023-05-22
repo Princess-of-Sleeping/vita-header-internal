@@ -93,15 +93,45 @@ typedef struct SceUIDAddressSpaceObject { // size is 0x170-bytes
 	SceUInt32 magic;		// 0x4D95AEEC
 } SceUIDAddressSpaceObject;
 
-
-typedef struct SceKernelAddressSpaceInfo { // size is 0x654-bytes
+typedef struct _SceKernelAddressSpaceInfo { // size is 0x654-bytes
 	SceSize size;
 	SceUID asid;
 	SceUInt32 context_id;
 	SceUInt32 nInfo;
 	SceKernelPartitionInfo part[0x20];
 	char data_0x610[0x44];
+} _SceKernelAddressSpaceInfo;
+
+typedef struct SceKernelAddressSpaceInfo { // size is 0x654-bytes
+	SceSize size;
+	SceUID asid;
+	SceUInt8 CONTEXTID;
+	SceUInt8 paddinf[3];
+	SceUInt32 nList;
+	struct {
+		SceSize size;
+		SceUIDPartitionObject *pPart;
+		SceUIntPtr vbase;
+		SceSize vsize;
+		SceUInt32 unk_0x10; // nBlock?
+		SceSize vsizeRemain;
+		const char *name;
+		SceUInt32 unk_0x1C;
+		SceUInt32 unk_0x20;
+		SceUInt32 unk_0x24;
+		SceUInt32 unk_0x28;
+		SceUInt32 unk_0x2C;
+	} list[0x20];
+	SceUInt32 nPhyMemPart;
+	SceUIDPhyMemPartObject *pPhyMemPart[0x10];
 } SceKernelAddressSpaceInfo;
+
+typedef struct SceSysmemAddressSpaceInfo {
+	uintptr_t base;
+	SceSize total;
+	SceSize free;
+	SceSize unkC;
+} SceSysmemAddressSpaceInfo;
 
 
 int SceSysmemForKernel_46A5CB84(SceUID pid, int a2, int a3, void *info); // get part info by addr
