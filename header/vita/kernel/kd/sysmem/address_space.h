@@ -149,7 +149,7 @@ SceUIDAddressSpaceObject *sceKernelGetKernelAddressSpace(void);
           sceKernelAddressSpaceGetMMUContext: 0x9894B9E1
           sceKernelAddressSpaceGetMemoryType: 0xCC7BB240
           sceKernelAddressSpaceGetTimerVbase: 0x7D92B2D3
-          sceKernelAddressSpaceRefer: 0x3F74E45C
+          sceKernelAddressSpaceGetPhyMemPartByIndex: 0x3F74E45C
           sceKernelAddressSpaceSetName: 0x7BD56D6D
           sceKernelAddressSpaceSetPhyMemPart: 0x67955EE9
           sceKernelAddressSpaceSetProcess: 0x2476B90F
