@@ -63,35 +63,56 @@ typedef struct SceKernelAddressSpaceMMUContext { // size is 0x28-bytes
 typedef struct SceUIDAddressSpaceObject { // size is 0x170-bytes
 	void *pUserdata;
 	SceClass *pClass;
-	int unk_0x08;		// for cpu function
+	int unk_0x08;                          // for cpu function
 	int unk_0x0C;
-	int flag;		// kernel:0x30000002, user:0x10000001
+	int flag;                              // kernel:0x30000002, user:0x10000001
 	SceUID pid;
 	SceKernelAddressSpaceMMUContext *unk_0x18;
 	SceUIDPartitionObject *pPart[0x20];
-	SceUID unk_uid[0x20];	// pPart object guid
-	int unk_0x11C;
-	int unk_0x120[3];
-	SceUIDPhyMemPartObject *unk_0x12C;
-	SceUIDPhyMemPartObject *unk_0x130;
-	SceUIDPhyMemPartObject *unk_0x134;
-	SceUIDPhyMemPartObject *unk_0x138;
-
-	SceUIDPhyMemPartObject *unk_0x13C;
-	SceUIDPhyMemPartObject *unk_0x140;
-	SceUIDPhyMemPartObject *unk_0x144;
-	SceUIDPhyMemPartObject *unk_0x148;
-
-	SceUIDPhyMemPartObject *unk_0x14C;
-	SceUIDPhyMemPartObject *unk_0x150;
-	SceUIDPhyMemPartObject *unk_0x154;
-	SceUIDPhyMemPartObject *unk_0x158;
-	SceUID unk_0x15C; // for user process? it guid
-	SceUID unk_0x160; // for user process? it guid
+	SceUID unk_uid[0x20];                  // pPart object guid
+	SceUIDPhyMemPartObject *pmpList[0x10];
+	SceUID unk_0x15C;                      // for user process? it guid
+	SceUID unk_0x160;                      // for user process? it guid
 	int unk_0x164;
-	uint32_t unk_0x168;	// kernel:0x511389B0
-	SceUInt32 magic;		// 0x4D95AEEC
+	SceUInt32 unk_0x168;                   // kernel:0x511389B0
+	SceUInt32 magic;                       // 0x4D95AEEC
 } SceUIDAddressSpaceObject;
+
+#define SCE_KERNEL_ADDRESS_SPACE_MAGIC (0x4D95AEEC)
+
+#define SCE_KERNEL_PARTITION_KERNEL_ROOT_INDEX                  (1) /* Official name */
+#define SCE_KERNEL_PARTITION_KERNEL_IO_INDEX                    (2)
+#define SCE_KERNEL_PARTITION_KERNEL_ROOT_UNCACHE_INDEX          (3)
+#define SCE_KERNEL_PARTITION_KERNEL_CDRAM_INDEX                 (4)
+#define SCE_KERNEL_PARTITION_KERNEL_ROOT_UNCACHE_INDEX_2        (5)
+#define SCE_KERNEL_PARTITION_KERNEL_TMP_INDEX                   (6)
+// #define SCE_KERNEL_PARTITION_UNKNOWN_7_INDEX                    (7)
+#define SCE_KERNEL_PARTITION_USER_TOOL_INDEX                    (8)
+#define SCE_KERNEL_PARTITION_USER_CDRAM_INDEX                   (9)
+#define SCE_KERNEL_PARTITION_USER_SHARED_INDEX                  (10)
+#define SCE_KERNEL_PARTITION_USER_IO_INDEX                      (11)
+#define SCE_KERNEL_PARTITION_USER_MAIN_INDEX                    (12)
+#define SCE_KERNEL_PARTITION_USER_UNCACHE_INDEX                 (13)
+#define SCE_KERNEL_PARTITION_USER_CDIALOG_INDEX                 (14)
+#define SCE_KERNEL_PARTITION_USER_CDIALOG_NC_INDEX              (15)
+// #define SCE_KERNEL_PARTITION_UNKNOWN_16_INDEX                   (16)
+#define SCE_KERNEL_PARTITION_KERNEL_ROOT_UNCACHE_GPU_GAME_INDEX (17)
+#define SCE_KERNEL_PARTITION_KERNEL_TMP_FS_GAME_INDEX           (18)
+#define SCE_KERNEL_PARTITION_KERNEL_TMP_FS_GAME_INDEX_2         (19)
+#define SCE_KERNEL_PARTITION_KERNEL_TOOL_INDEX                  (20)
+#define SCE_KERNEL_PARTITION_KERNEL_TOOL_UNCACHE_INDEX          (21)
+
+#define SCE_KERNEL_PHYMEMPART_GAME_INDEX         (5)
+#define SCE_KERNEL_PHYMEMPART_KD_INDEX           (6)
+#define SCE_KERNEL_PHYMEMPART_PHYCONT_INDEX      (8)
+#define SCE_KERNEL_PHYMEMPART_SHARED_INDEX       (9)
+#define SCE_KERNEL_PHYMEMPART_GAME_CDIALOG_INDEX (10)
+#define SCE_KERNEL_PHYMEMPART_MAIN_INDEX         (11)
+#define SCE_KERNEL_PHYMEMPART_CDRAM_INDEX        (12)
+#define SCE_KERNEL_PHYMEMPART_TOOL_INDEX         (15)
+#define SCE_KERNEL_PHYMEMPART_SHELL_INDEX        SCE_KERNEL_PHYMEMPART_MAIN_INDEX
+#define SCE_KERNEL_PHYMEMPART_SHELL_CDRAM_INDEX  SCE_KERNEL_PHYMEMPART_CDRAM_INDEX
+
 
 typedef struct _SceKernelAddressSpaceInfo { // size is 0x654-bytes
 	SceSize size;
