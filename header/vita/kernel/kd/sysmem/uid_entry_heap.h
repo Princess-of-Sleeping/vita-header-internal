@@ -4,11 +4,17 @@
 
 #include <shared/types.h>
 
-
 #ifdef __cplusplus
 extern "C" {
 #endif
 
+
+typedef struct SceUIDEntryHeapObject { // size is 0xB0-bytes
+	SceUIDFixedHeapObject fixedheap;
+	int data_0xA4;
+	int data_0xA8;
+	int data_0xAC;
+} SceUIDEntryHeapObject;
 
 /*
           sceUIDCreateEntryHeap: 0x19CAEF35
