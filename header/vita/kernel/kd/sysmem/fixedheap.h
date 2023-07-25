@@ -10,6 +10,52 @@ extern "C" {
 #endif
 
 
+typedef struct SceFixedHeapHook { // size is 0xC-bytes
+	void *argp;
+	void *(* funcAlloc)(void *argp, SceSize length);
+	void (* funcFree)(void *argp, void *ptr);
+} SceFixedHeapHook;
+
+typedef struct SceFixedHeapCache { // size is 0x10-bytes
+	SceUInt16 unk_0x00;
+	SceUInt16 nCount;
+	SceUInt32 unk_0x04;
+	void *unk_0x08;
+	void *unk_0x0C;
+} SceFixedHeapCache;
+
+typedef struct SceUIDFixedHeapObject { // size is 0xA4-bytes
+	void *pUserdata;
+	void *pClass;
+	struct SceKernelObjectHeap *pObjectHeap;
+	void *pItem;
+	void *pItemEnd;
+	int data_0x14;
+	SceUInt32 attr;
+	SceSize pageSize;
+	SceUInt16 itemSize;
+	SceUInt16 data_0x22;
+	SceUInt16 data_0x24;
+	SceUInt16 data_0x26;
+	int lock;
+	SceUInt32 magic;
+	SceUInt32 nPageMax;
+	int data_0x34; // nData_0x38
+	void **pLineListVector;
+	void *data_0x3C;
+	void *data_0x40;
+	SceUInt16 data_0x44;
+	SceUInt16 nItemPerPage;
+	SceFixedHeapHook *pHeapHook;
+	void *pKernelHeapObject;
+	int data_0x50;
+	void *pPhyMemPart;
+	char *name;
+	SceFixedHeapCache cache[4];
+	void *data_0x9C;
+	SceUInt32 nItemInFifo;
+} SceUIDFixedHeapObject;
+
 typedef struct SceKernelFixedHeapInfo { // size is 0x90-bytes
 	SceSize size;
 	SceSize objectSize;
