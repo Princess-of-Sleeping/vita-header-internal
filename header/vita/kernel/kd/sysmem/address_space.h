@@ -54,9 +54,9 @@ typedef struct SceKernelAddressSpaceMMUContext { // size is 0x28-bytes
 	SceKernelProcessTTBR *pProcessTTBR;
 	SceKernelPTVVector *unk_0x10;
 	int unk_0x14;
-	int unk_0x18;
-	int unk_0x1C;
-	int unk_0x20;
+	SceUIDFixedHeapObject *unk_0x18;
+	SceUIDFixedHeapObject *unk_0x1C;
+	void *pL2PageTableHeap;
 	int unk_0x24;
 } SceKernelAddressSpaceMMUContext;
 
