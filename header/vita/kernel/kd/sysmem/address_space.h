@@ -2,10 +2,11 @@
 #ifndef _PSP2_KERNEL_AS_H_
 #define _PSP2_KERNEL_AS_H_
 
-#include <shared/types.h>
-#include <kernel/kd/sysmem/uid_class.h>
-#include <kernel/kd/sysmem/partition.h>
-#include <kernel/kd/sysmem/phymempart.h>
+#include <psp2kern/types.h>
+#include "uid_class.h"
+#include "fixedheap.h"
+#include "partition.h"
+#include "phymempart.h"
 
 
 #ifdef __cplusplus

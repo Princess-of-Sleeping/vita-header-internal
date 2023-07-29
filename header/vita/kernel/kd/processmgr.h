@@ -2,42 +2,15 @@
 #ifndef _PSP2_KERNEL_PROCESSMGR_H_
 #define _PSP2_KERNEL_PROCESSMGR_H_
 
-#include <vita/shared/types.h>
-#include <vita/kernel/kd/sysmem/phymempart.h>
+#include <psp2kern/types.h>
+#include "sysmem/address_space.h"
+#include "sysmem/phymempart.h"
+#include "modulemgr.h"
 
 
 #ifdef __cplusplus
 extern "C" {
 #endif
-
-
-
-
-typedef struct SceKernelThreadOptParam {
-	/** Size of the ::SceKernelThreadOptParam structure. */
-	SceSize     size;
-	/** Attributes */
-	SceUInt32   attr;
-	SceUInt32   data_0x08;
-	SceUInt32   data_0x0C;
-	SceUInt32   data_0x10;
-} SceKernelThreadOptParam;
-
-typedef struct SceLoadProcessParam { // size is 0x7C-bytes
-	uint32_t sysver;
-	char thread_name[0x20];
-	uint32_t initial_thread_priority; // ex: 0x100000EC
-	SceSize initial_thread_stack_size; // ex: 0x6000
-	uint32_t unk_0x2C;
-	uint32_t unk_0x30;
-	SceKernelThreadOptParam	thread_opt; // Size 0x14
-	int unk_0x48;
-	int unk_0x4C;
-	int unk_0x50;
-	char process_name[0x20]; // not titleid
-	uint32_t preload_inhibit;
-	void *module_proc_param;
-} SceLoadProcessParam;
 
 typedef SceUInt32 SceProcessType;
 

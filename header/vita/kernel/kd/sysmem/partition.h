@@ -2,7 +2,7 @@
 #ifndef _PSP2_KERNEL_SYSMEM_PARTITION_H_
 #define _PSP2_KERNEL_SYSMEM_PARTITION_H_
 
-#include <shared/types.h>
+#include <psp2kern/types.h>
 
 
 #ifdef __cplusplus

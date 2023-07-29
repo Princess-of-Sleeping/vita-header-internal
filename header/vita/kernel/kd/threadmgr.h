@@ -2,10 +2,10 @@
 #ifndef _PSP2_KERNEL_THREADMGR_H_
 #define _PSP2_KERNEL_THREADMGR_H_
 
-#include <vita/shared/types.h>
-#include <vita/kernel/kd/threadmgr/delay.h>
-#include <vita/kernel/kd/threadmgr/workqueue.h>
-#include <vita/kernel/kd/threadmgr/gpu_exception.h>
+#include <psp2kern/types.h>
+#include "threadmgr/delay.h"
+#include "threadmgr/workqueue.h"
+#include "threadmgr/gpu_exception.h"
 
 
 #ifdef __cplusplus

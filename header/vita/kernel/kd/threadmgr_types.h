@@ -7,6 +7,16 @@
 #include "sysmem/address_space.h"
 
 
+typedef struct _SceKernelThreadOptParam {
+	SceSize   size;
+	SceUInt32 attr;
+	SceUInt32 kStackMemType;
+	SceUInt32 uStackMemType;
+	SceUInt32 uTLSMemType;
+	SceUInt32 uStackMemid;
+	SceUInt32 data_0x18;
+} _SceKernelThreadOptParam;
+
 typedef union SceKernelThreadVfpRegister { // size is 0x100-bytes
 	union {
 		SceFloat  value[0x40];

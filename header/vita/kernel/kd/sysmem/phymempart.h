@@ -2,8 +2,8 @@
 #ifndef _PSP2_KERNEL_SYSMEM_PHYMEMPART_H_
 #define _PSP2_KERNEL_SYSMEM_PHYMEMPART_H_
 
-#include <shared/types.h>
-#include <kernel/kd/sysmem/uid_class.h>
+#include <psp2kern/types.h>
+#include "uid_class.h"
 
 
 #ifdef __cplusplus
