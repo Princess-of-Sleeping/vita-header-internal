@@ -17,7 +17,7 @@ typedef struct SceKernelObjectHeap { // size is 0xC4-bytes
 	void *unk_0x0C;
 	SceFixedHeapHook *pHeapHook;
 	void *pKernelHeapObject;
-	int unk_0x18;
+	void *pL2PageTableHeap;
 	struct {
 		SceInt32 unk_0x1C;
 		SceInt32 unk_0x20;
