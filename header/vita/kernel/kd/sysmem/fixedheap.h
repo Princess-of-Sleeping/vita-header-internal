@@ -10,6 +10,12 @@ extern "C" {
 #endif
 
 
+typedef struct SceKernelUIDFixedHeapClass { // size is 0x3C-bytes
+	SceKernelUIDHeapClass heapClass;
+	int data_0x34;
+	int (* data_0x38)(void *a1, int a2);
+} SceKernelUIDFixedHeapClass;
+
 typedef struct SceFixedHeapHook { // size is 0xC-bytes
 	void *argp;
 	void *(* funcAlloc)(void *argp, SceSize length);
@@ -26,7 +32,7 @@ typedef struct SceFixedHeapCache { // size is 0x10-bytes
 
 typedef struct SceUIDFixedHeapObject { // size is 0xA4-bytes
 	void *pUserdata;
-	void *pClass;
+	SceKernelUIDFixedHeapClass *pClass;
 	struct SceKernelObjectHeap *pObjectHeap;
 	void *pItem;
 	void *pItemEnd;

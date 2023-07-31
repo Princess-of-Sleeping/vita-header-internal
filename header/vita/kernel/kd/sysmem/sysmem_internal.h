@@ -72,6 +72,61 @@ typedef struct SceKernelAllocMemBlockCommand {
 	int data_0x8C;
 } SceKernelAllocMemBlockCommand;
 
+// ModulePrivate3
+typedef struct SceKernelSystemMemory { // size is 0xDC-bytes
+	SceSize size;
+	int data_0x04;
+	SceUIDEntryHeapObject *pUIDEntryHeap;
+	void *data_0x0C; // size is 0x8-bytes.
+	SceUIDPhyMemPartObject *pPhyMemPartKD;
+	SceUIDPhyMemPartObject *pPhyMemPartTool;
+	SceUIDFixedHeapObject *pFixedHeap16B;
+	SceUIDFixedHeapObject *pFixedHeap32B;
+	SceUIDFixedHeapObject *pFixedHeap48B;
+	SceUIDFixedHeapObject *pFixedHeap64B;
+	SceUIDFixedHeapObject *pFixedHeap128B;
+	SceUIDFixedHeapObject *pFixedHeap256B;
+	SceUIDFixedHeapObject *pFixedHeap512B;
+	SceUIDFixedHeapObject *pFixedHeapForL2Object;
+	void *nameheap_cb;
+	void *data_0x3C; // smb stuff
+	void *pKernelPatitionObject;
+	void *pKernelHeapObject;
+	SceKernelObjectHeap *pObjectHeap;
+	SceSize number_of_memory_base_list;
+	struct {
+		SceUIntPtr base;
+		SceSize length;
+	} address_base[4];
+	int data_0x70; // ex:0
+	SceUIntPtr ttbr0_vbase;
+	SceUIntPtr ttbr1_vbase;
+	SceSize ttbr0_size;
+	SceSize ttbr1_size;
+	SceKernelPhyMemLowMap *pPhy;
+	SceKernelPhyMemLowMap *pPAPhy;
+	void *pPageKernelReset;
+	int data_0x90; // allocate result of pPhyMemPartKD
+	int data_0x94; // allocate result of pPhyMemPartKD
+	SceClass *pUIDClass;
+	SceClass *pUIDDLinkClass;
+	SceKernelUIDHeapClass      *pKernelUIDHeapClass;
+	SceKernelUIDFixedHeapClass *pKernelUIDFixedHeapClass;
+	SceKernelUIDFixedHeapClass *pKernelUIDEntryHeapClass;
+	SceClass *pUIDSimpleMemBlockClass;
+	SceClass *pUIDMemBlockClass;
+	SceClass *pUIDTinyPartitionClass;
+	SceClass *pUIDPartitionClass;
+	void *pKernelUIDpKernelHeapClass;
+	void *data_0xC0; // size is 0xC-bytes
+	void *data_0xC4; // size is 0x18-bytes. Related to partition
+	void *data_0xC8; // size is 0x28-bytes. Related to partition
+	SceUID kernelHeapUncachedId;
+	void *data_0xD0; // SceAS object pointer
+	void *pAddressSpaceCB; // size is 0xC-bytes.
+	int data_0xD8;
+} SceKernelSystemMemory;
+
 
 #ifdef __cplusplus
 }

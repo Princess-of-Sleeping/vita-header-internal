@@ -10,6 +10,12 @@ extern "C" {
 #endif
 
 
+typedef struct SceKernelUIDHeapClass { // size is 0x34-bytes
+	SceClass sceUIDHeapClass;
+	int (* FixedHeapAllocObject)(SceUIDFixedHeapObject *pFixedHeap, SceSize size, void **result);
+	int (* FixedHeapFreeObject)(SceUIDFixedHeapObject *pFixedHeap, void *pObject);
+} SceKernelUIDHeapClass;
+
 /*
           sceKernelCreateHeap: 0x9328E0E8
           sceKernelDeleteHeap: 0xD6437637

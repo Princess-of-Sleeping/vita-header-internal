@@ -15,12 +15,12 @@ typedef struct SceUIDPhyMemPartObject { // size is 0xAC-bytes
 	void *pUserdata;
 	SceClass *pClass;
 	int data_0x08; // for cpu function
-	int data_0x0C;
+	SceUInt32 state;
 
 	SceUID data_0x10;
-	int data_0x14;
+	SceUInt32 type;
 	int data_0x18;
-	void *data_0x1C;
+	void *data_0x1C; // size is 0x80-bytes
 
 	void *data_0x20;
 	int data_0x24;
@@ -34,11 +34,11 @@ typedef struct SceUIDPhyMemPartObject { // size is 0xAC-bytes
 		void *data;
 	} vector_0x34[9];
 
-	void *data_0x7C; // size is 0x30-bytes
+	void *data_0x7C; // size is 0x24-bytes.
 
 	int data_0x80;
-	SceSize free_size;
-	SceSize free_size_internal;
+	SceSize freeSize;
+	SceSize freeSizeMin;
 	char name[0x20];
 } SceUIDPhyMemPartObject;
 
