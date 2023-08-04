@@ -3,16 +3,7 @@
 #define _PSP2_KERNEL_VFS_H_
 
 
-#include <psp2kern/kernel/threadmgr.h>
-#include <psp2kern/kernel/sysmem.h>
-#include "vop.h"
-
-
-typedef struct SceVfsNode SceVfsNode;
-typedef struct SceVfsFileObject SceVfsFileObject;
-typedef struct SceVfsMount SceVfsMount;
-typedef struct SceVfsMount2 SceVfsMount2;
-typedef struct SceVfsAddParam SceVfsAddParam;
+#include <psp2kern/types.h>
 
 
 typedef struct SceVfsPath { //size is 0xC-bytes
@@ -22,9 +13,9 @@ typedef struct SceVfsPath { //size is 0xC-bytes
 } SceVfsPath;
 
 typedef struct SceVfsopSetRootArgs { // size is 0xC-bytes
-	SceVfsMount *pMount;
+	struct SceVfsMount *pMount;
 	int data_0x04;
-	SceVfsNode *pNode;
+	struct SceVfsNode *pNode;
 } SceVfsopSetRootArgs;
 
 typedef struct SceVfsDevctl {
@@ -38,14 +29,12 @@ typedef struct SceVfsDevctl {
 } SceVfsDevctl;
 
 typedef struct SceVfsMountArgs { // size is 0x8-bytes
-	SceVfsMount *pMount;
+	struct SceVfsMount *pMount;
 	SceVfsPath *file_info;
 } SceVfsMountArgs;
 
-
-
 typedef struct SceVfsopDecodePathElemArgs { // size is 0x1C-bytes
-	SceVfsMount *pMount;   // in
+	struct SceVfsMount *pMount;   // in
 	const char *path;      // in
 	const char **dst_path; // out
 	const char **child;    // out
@@ -55,12 +44,12 @@ typedef struct SceVfsopDecodePathElemArgs { // size is 0x1C-bytes
 } SceVfsopDecodePathElemArgs;
 
 typedef struct SceVfsopUmountArgs { // size is 0x8-bytes
-	SceVfsMount *mnt;
+	struct SceVfsMount *mnt;
 	int flags;
 } SceVfsopUmountArgs;
 
 typedef struct SceVfsopInitArgs { // size is 0x4-bytes
-	SceVfsAddParam *pParam;
+	struct SceVfsAddParam *pParam;
 } SceVfsopInitArgs;
 
 typedef struct SceVfsTable { // size is 0x34-bytes
@@ -79,18 +68,32 @@ typedef struct SceVfsTable { // size is 0x34-bytes
 	int (* vfs_decode_path_elem)(SceVfsopDecodePathElemArgs *argp);
 } SceVfsTable;
 
+typedef struct SceVfsMountLock {
+	SceUID mutex_id;
+	SceUID cond_id;
+	int data_0xD8;
+	int data_0xDC;
+} SceVfsMountLock;
+
+typedef struct SceVfsMount_CC {
+	struct SceVopTable *ops;
+	int dirty;
+	int *flag;
+	SceUID *eventFlag;
+} SceVfsMount_CC;
+
 typedef struct SceVfsMount { // size is 0x100-bytes
 	SceUInt8 fastmutex[0x40];
 
-	SceVfsNode *data_0x40; // base device node
+	struct SceVfsNode *data_0x40; // base device node
 	SceUID heapid;
 	int data_0x48;
-	int data_0x4C; // some flags. copied from (SceVfsMountParam *)->data_0x08
+	SceUInt32 fsAttr;
 
-	int data_0x50; // some flags. copied from ((SceVfsMountParam *)->data_0x0C & 0xFFFFF)
-	SceVfsNode *pNodeTop;
+	SceUInt32 mntAttr;
+	struct SceVfsNode *pNodeTop;
 	SceUInt32 nNodes;
-	const SceVfsAddParam *pVfsAddParam;
+	const struct SceVfsAddParam *pVfsAddParam;
 
 	SceInt32 mntRefCount;
 	int openedEntryNum;
@@ -99,24 +102,17 @@ typedef struct SceVfsMount { // size is 0x100-bytes
 	void *data_0x70;
 	void *data_0x74;
 	struct SceVfsMount *next;
-	const SceVfsMount2 *pVfsMount2;
+	const struct SceVfsMount2 *pVfsMount2;
 
 	// offset: 0x80
 	char device[0x40];
 	int data_0xC0;
 	void *data_0xC4; // pData? used for SceExfatfs 0x230 ctx
-	void *data_0xC8; // pointer to mutex_id (fd_lock_ptr)
-	void *prev;      // pointer to data_0xE0
+	SceVfsMountLock *pLock;
+	SceVfsMount_CC *pCC;
 
-	SceUID mutex_id;
-	SceUID cond_id;
-	int data_0xD8;
-	int data_0xDC;
-
-	int data_0xE0;
-	int data_0xE4;
-	void *data_0xE8;
-	void *data_0xEC;
+	SceVfsMountLock lock;
+	SceVfsMount_CC CC;
 
 	int data_0xF0;
 	int data_0xF4;
@@ -127,10 +123,10 @@ typedef struct SceVfsMount { // size is 0x100-bytes
 // real name is ncache (name cache)
 typedef struct SceVfsNCache { // size is 0x20-bytes
 	struct SceVfsNCache *data_0x00; // next cache on current dir
-	struct SceVfsNCache *parent;
+	struct SceVfsNCache *parent; // ncdd
 	struct SceVfsNCache *data_0x08; // link with per mount all cache
 	struct SceVfsNCache *child;
-	SceVfsNode *pNode;
+	struct SceVfsNode *pNode;
 	int state;
 	int name_len; // len
 	char *name;
@@ -145,7 +141,7 @@ typedef struct SceVfsNode { // size is 0x100-bytes
 	SceUInt32 padding_0x14[11];
 
 	struct { // offset:0x40 size is 0x98-bytes
-		const SceVopTable *ops;
+		const struct SceVopTable *ops;
 		SceUInt32 nodeInf;
 		void *nodeData;
 		SceVfsMount *mnt;
@@ -171,10 +167,10 @@ typedef struct SceVfsNode { // size is 0x100-bytes
 		SceUInt32 st_attr; // aclData?
 		uint32_t unk_8C;   // aclData?
 
-		SceVfsFileObject *fdList;
+		struct SceVfsFileObject *fdList;
 		SceUInt32 fdNum;
-		struct SceVfsNode *child_node; // child node with deeper level of i/o implementation?
-		uint32_t unk_9C;
+		struct SceVfsNode *linkTo;
+		SceUInt32 linkedNum;
 
 		uint8_t data2[0x30];
 
@@ -187,25 +183,28 @@ typedef struct SceVfsNode { // size is 0x100-bytes
 
 typedef struct SceVfsFileObject { // size is 0x40-bytes
 	SceBool is_dir_handler;
-	int flags;                         // open flags
+	int flags;                    // from sceIoOpen args
 	SceOff offset;
-	int flags2;                        // 0x10 some flags
+
+	int flags2;
 	SceUID pid;
-	SceVfsNode *node;                  // 0x18
+	SceVfsNode *node;
 	struct SceVfsFileObject *prev_obj;
-	void *device_handle;               //0x20 - for Sdstor this will be sd_stor_device_handle*
+
+	void *device_handle;
 	uint16_t unk24;
 	uint8_t unk26;
 	uint8_t unk27;
-	void *fd_lock_ptr;                 // 0x28
-	int devMinor;                      // 0x2C
+	SceVfsMountLock *pLock;
+	int devMinor;
+
 	void *file_info; // size is 0x20-bytes. If have Dipsw 0xD2, only.
 	char unk34[12];
 } SceVfsFileObject;
 
 typedef struct SceUIDVfsFileObject {
 	void *userdata;
-	SceClass *sce_class; 
+	void *sce_class; 
 	SceVfsFileObject vfs_object;
 } SceUIDVfsFileObject;
 
@@ -215,7 +214,7 @@ typedef struct SceVfsAddParam { // size is 0x20-bytes
 	SceSize vfsNameLen;
 	int is_mounted;
 	int data_0x10;         // ex:0x10
-	const SceVopTable *pVopTable;
+	const struct SceVopTable *pVopTable;
 	int data_0x18;
 	struct SceVfsAddParam *prev;
 } SceVfsAddParam;
@@ -229,30 +228,29 @@ typedef struct SceVfsMount2 { // size is 0x14-bytes
 } SceVfsMount2;
 
 
+
+#define SCE_VFS_FS_ATTR_EXFAT     (1)
+#define SCE_VFS_FS_ATTR_PFS       (2)
+#define SCE_VFS_FS_ATTR_HOST      (4)
+#define SCE_VFS_FS_ATTR_BLOCK     (0x10)
+#define SCE_VFS_FS_ATTR_TTY       (0x20)
+#define SCE_VFS_FS_ATTR_REMOVAL   (0x10000)
+#define SCE_VFS_FS_ATTR_REMOVAL2  (0x20000)
+#define SCE_VFS_FS_ATTR_INTERNAL  (0x1000000)
+#define SCE_VFS_FS_ATTR_EXTERNAL  (0x2000000)
+#define SCE_VFS_FS_ATTR_0x4000000 (0x4000000)
+
 #define SCE_VFS_MOUNT_FLAG_RO (0x1000)
 
-typedef struct SceVfsMountParam {   // size is 0x20-bytes
+typedef struct SceVfsMountParam { // size is 0x20-bytes
 	const char *device;    // ex: "/host", "/dev", "/tty", "/md"
-	int data_0x04;
-	int data_0x08;         // ex:0x03000004
-
-	/*
-	 * flags ex:0x00008006
-	 * mask 0x000000FF : device
-	 *      1 : pfs
-	 *      2 : unknown. another fs import?
-	 *      3 : virtual device. like tty/md. Also "sdstor0:" entry.
-	 *      4 : if data_0x04 != 0, success, but nop.
-	 *      5 : ?
-	 *      6 : host0:
-	 * mask 0x0000FF00 : access?
-	 *      0x1000 : Read only
-	 */
-	int data_0x0C;
-	const char *data_0x10; // ex:"bsod_dummy_host_fs"/"exfat"
-	int data_0x14;
+	const char *blockdevName;
+	SceUInt32 fsAttr;
+	SceUInt32 mntAttr;
+	const char *vfsName;
+	void *pCommon;
 	const SceVfsMount2 *pVfsMount2;
-	int data_0x1C;
+	const struct SceVopTable *vop;
 } SceVfsMountParam;
 
 typedef struct SceVfsUmountParam {
@@ -261,16 +259,6 @@ typedef struct SceVfsUmountParam {
 } SceVfsUmountParam;
 
 /* vfs function */
-
-/*
- * Add new vfs
- */
-int ksceVfsAddVfs(SceVfsAddParam *pParam);
-
-/*
- * Delete registered vfs
- */
-int ksceVfsDeleteVfs(const char *fs, SceVfsAddParam **pParam);
 
 /*
  * Mount registered vfs
@@ -282,19 +270,8 @@ int ksceVfsMount(const SceVfsMountParam *pParam);
  */
 int ksceVfsUnmount(const SceVfsUmountParam *pParam);
 
-int ksceVfsGetNewNode(SceVfsMount *mount, const SceVopTable *pTable, int a3, SceVfsNode **ppNode);
-int ksceVfsFreeVnode(SceVfsNode *pNode);
-
-int sceVfsLockVnode(SceVfsNode *pNode);
-int sceVfsUnlockVnode(SceVfsNode *pNode);
-
 int ksceVfsOpDevctl(SceVfsMount *pMountInfo, const char *dev, int cmd, void *indata, SceSize inlen, void *outdata, SceSize outlen);
 int ksceVfsOpDecodePathElem(SceVfsMount *pMount, const char *path, const char **dst_path, const char **child, char *dst, SceSize dst_size, SceSize *pResultSize);
-int sceVfsopInit(SceVfsAddParam *pParam); // no exported
-int sceVfsopUmount(SceVfsMount *mnt, int flags); // no exported
-
-SceUID sceVfsAllocateFile(SceVfsNode *pNode, SceVfsFileObject **ppObject, const char *name);
-int sceVfsFreeFile(SceVfsNode *pNode, SceUID fd);
 
 
 #endif // _PSP2_KERNEL_VFS_H_
