@@ -125,7 +125,7 @@ typedef struct SceKernelThreadObject { // size is 0x1B0-bytes
 	struct {
 		struct SceKernelThreadObject *next;
 		struct SceKernelThreadObject *prev;
-	} priorityQueue;
+	} readyQueue;
 	SceUID thread_id; // this object guid
 	SceKernelThreadRegisters *ptr_0x34;
 
