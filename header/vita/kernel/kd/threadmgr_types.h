@@ -400,10 +400,127 @@ typedef struct ThreadMgrCpuCB { // size is 0x880-bytes
 	} priorityQueue[0x100];
 } ThreadMgrCpuCB;
 
-typedef struct SceKernelThreadmgrPrivate { // size is 0x28B8-bytes
+typedef struct SceKernelThreadmgrPrivate { // size is 0x28C8-bytes
 	ThreadMgrCpuCB cpuCB[4];
-	SceKernelSpinlock threadMgrCBLock;
-	SceUInt8 data[0x6B4];
+	int threadMgrCBLock;
+	unsigned int allowCpuMask;
+	int data_0x00;
+	int data_0x04_lock;
+	int data_0x08_counter;
+	int data_0x0C;
+
+	void *data_0x10;
+	void *data_0x14;
+	int data_0x18;
+	int data_0x1C_lock;
+
+	void *data_0x20;
+	void *data_0x24;
+
+	struct {
+		void *next;
+		void *prev;
+	} ThreadDLink;
+
+	void *data_0x30;
+	void *data_0x34;
+	void *data_0x38;
+	void *data_0x3C;
+	void *data_0x40;
+	void *data_0x44;
+
+	void *data_0x48;
+	void *data_0x4C;
+	void *data_0x50;
+	void *data_0x54;
+
+	int data_0x58;
+
+	struct {
+		int registered;
+		int data_0x04;
+		int size;
+		void *freeCb;
+		void *pUserdata;
+	} KTLS[8]; // used by SceThreadmgrForDriver_B645C7EF
+	int threadMgrCBHeapId;
+
+	// Related to timer
+	int SceLT5_memid;
+	void *SceLT5_base;
+	int data2_0x00_lock;
+	int data2_0x04;
+	int data2_0x08;
+	int data2_0x0C;
+	void *data2_0x10;
+	void *data2_0x14;
+	unsigned long long data2_0x18;
+
+	void *pUIDThreadClassEx;
+	void *pUIDSemaphoreClassEx;
+	void *pUIDEventFlagClassEx;
+	void *pUIDMutexClassEx;
+	void *pUIDCondClassEx;
+	void *pUIDTimerClassEx;
+	void *pUIDMsgPipeClassEx;
+	void *pUIDCallbackClass;
+	void *pUIDThreadEventClass;
+	void *pUIDLwMutexClassEx;
+	void *pUIDLwCondClassEx;
+	void *pUIDRWLockClassEx;
+	void *pUIDSimpleEventClassEx;
+	void *pUIDExceptionClassEx;
+	void *pUIDFastMutexClassEx;
+	void *pUIDDelayClassEx;
+	void *pUIDAlarmClassEx;
+	void *pUIDWorkQueueClassEx;
+	void *pUIDWorkTaskClassEx;
+	void *pUIDCacheClass;
+	void *pUIDWaitableClassEx;
+	void *pUIDRegisterCallbackClassEx;
+	void *pUIDEventClassEx;
+	void *pUIDCpuTimerClassEx;
+	void *pUIDProcessClass; // SceThreadmgrForKernel_766028E7
+	int uidSignalObject_guid;
+	void *pUIDSignalObject;
+	void *threadmgrIntrHandler[0x10];
+	int data2_0x40[3]; // SceThreadmgrForDriver_1378F6EF
+
+	// SceThreadmgrForDriver_5311CFB5
+	int data2_0x4C;
+	int data2_0x50;
+
+	int threadmgrCBBlockId;
+	int currentRunningThreadId[4];
+
+	unsigned char data3[0x24];
+
+	// Related to uidThreadEvent
+	void *data3_0x24_next;
+	void *data3_0x24_prev;
+
+	// Related to something thread ready
+	int data4_0x00;
+	int threadmgrTestMode;
+	int data4_0x08;
+	int data4_0x0C; // lock
+	int data4[0xFC];
+
+	int msgPipeAsyncThreadId[8];
+	int msgPipeAsyncMutexId;
+	int msgPipeAsyncCondId;
+	int data5[8];
+	int msgPipeAsyncReqCompCondId[8];
+	void *data6_next;
+	void *data6_prev;
+	unsigned char data7[0x8];
+
+	int syslibtraceThreadCBInitFlag;
+	int dtraceThreadCBInitFlag;
+	int data8_heapid; // syslibtraceThreadCB/dtraceThreadCB
+	unsigned char data8_0x04[0xC];
+	int data8_atomic;
+	int data8_0x14;
 } SceKernelThreadmgrPrivate;
 
 
