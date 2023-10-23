@@ -61,43 +61,43 @@ typedef struct SceKernelThreadRegisters { // size is 0x100
 	unsigned int reg[0xF];
 
 	unsigned int cpsr_kern;
-	int unk_0x44; // maybe DACR for user
-	int unk_0x48; // maybe DACR for kernel
-	int unk_0x4C; // ex:0xF00000
+	int uDACR;
+	int kDACR;
+	int CPACR;
 
-	int unk_0x50;
-	void *ptr_0x54;        // maybe user tls?
+	int TPIDRURW;
+	void *TPIDRURO;
 	SceUInt32 TTBR1;
-	SceUInt32 unk_0x5C; // some seed. process_CONTEXTIDR | this_thid * 0x100
+	SceUInt32 CONTEXTIDR;
 
-	int unk_0x60;
-	unsigned int ptr_0x64; // maybe paddr
-	int unk_0x68;
-	int unk_0x6C;
+	int PAR;
+	unsigned int PMCR;
+	int PMOVSR;
+	int PMSELR;
 
-	int unk_0x70;
-	int unk_0x74;
-	int unk_0x78;
-	int unk_0x7C;
+	int PMUSERENR;
+	int PMCCNTR;
+	int PMXEVTYPER0;
+	int PMXEVCNTR0;
 
-	int unk_0x80;
-	int unk_0x84;
-	int unk_0x88;
-	int unk_0x8C;
+	int PMXEVTYPER1;
+	int PMXEVCNTR1;
+	int PMXEVTYPER2;
+	int PMXEVCNTR2;
 
-	int unk_0x90;
-	int unk_0x94;
-	int unk_0x98;
-	int unk_0x9C;
+	int PMXEVTYPER3;
+	int PMXEVCNTR3;
+	int PMXEVTYPER4;
+	int PMXEVCNTR4;
 
-	int unk_0xA0;
-	int unk_0xA4;
+	int PMXEVTYPER5;
+	int PMXEVCNTR5;
 	unsigned int DFSR; // ex:0x8F5
 	unsigned int IFSR;
 
 	unsigned int DFAR;
-	int unk_0xB4;
-	int unk_0xB8; // ex:0x2000, some size?
+	int IFAR;
+	int TEEHBR;
 	int unk_0xBC; // ex:user(0xFF), kernel(0xF0)? maybe?
 
 	const void *pc;
@@ -115,7 +115,7 @@ typedef struct SceKernelThreadRegisters { // size is 0x100
 	int unk_0xE8;
 	int unk_0xEC;
 
-	int unk_0xF0;
+	int PMCNTEN;
 	SceKernelThreadVfpInfo *unk_0xF4; // TODO: check data type
 	int unk_0xF8;
 	int unk_0xFC;
@@ -127,10 +127,10 @@ typedef struct SceKernelThreadObject { // size is 0x1B0-bytes
 		struct SceKernelThreadObject *prev;
 	} readyQueue;
 	SceUID thread_id; // this object guid
-	SceKernelThreadRegisters *ptr_0x34;
+	SceKernelThreadRegisters *pRegisterContext;
 
 	// 0x10
-	SceKernelThreadVfpInfo *ptr_0x38;
+	SceKernelThreadVfpInfo *pVfpRegisterContext;
 	int data_0x3C;
 	void *ptr_0x40; // SceProcessmgrInfoInternal ptr
 	void *data_0x44; // some bkpt
@@ -171,33 +171,33 @@ typedef struct SceKernelThreadObject { // size is 0x1B0-bytes
 	void *ptr_0xB8; // pointer to SceUIDProcessObject->ptr2D0
 	void *ptr_0xBC; // pointer to SceUIDProcessObject->ptr2D4?
 	SceUID thread_id_user;
-	int data_0xC4; // ex: 0x80000100. maybe SceThreadStatus
+	int currentStatus; // ex: 0x80000100. maybe SceThreadStatus
 	int exitStatus;
-	SceUInt32 initAttr;
+	SceUInt32 initialAttr;
 	SceUInt32 currentAttr;
-	int initPriority;
+	int initialPriority;
 	int currentPriority;
 	int data_0xDC; // ex: 0xFE. some priority.
 	int data_0xE0; // ex: 0xA0. some priority.
-	int initCpuAffinityMask;
+	int initialCpuAffinityMask;
 	int currentCpuAffinityMask;
-	int data_0xEC; // maybe currentCpuId
+	int currentCpuId;
 	int lastExecutedCpuId;
 	void *stack_top;
 	void *stack_bottom;
 	SceSize stack_size;
-	SceUID stack_memid_user;
-	SceUID stack_memid_kern;
+	SceUID uStackMemblkId;
+	SceUID kStackMemblkId;
 	SceKernelThreadEntry entry;
 	int data_0x10C;
 	int data_0x110;
 	int data_0x114;
 	int data_0x118;
 	SceUIDAddressSpaceObject *ptr_0x11C;
-	void *ptr_0x120;
+	void *pUIDEntryHeap;
 	SceUID processId2;
 	int data_0x128;
-	SceUID tls_memid_user;
+	SceUID uTLSMemblkId;
 	SceUInt32 stack_mem_type; // for kernel.
 	int data_0x134;
 	int data_0x138;
@@ -229,7 +229,7 @@ typedef struct SceKernelThreadObject { // size is 0x1B0-bytes
 	void *ptr_0x194; // some tree?
 	void *ptr_0x198;
 	void *ptr_0x19C;
-	void *data_0x1A0; // size is 0x28-bytes
+	void *pExceptionList; // size is 0x28-bytes
 	int data_0x1A4;
 	int data_0x1A8;
 	int data_0x1AC;
