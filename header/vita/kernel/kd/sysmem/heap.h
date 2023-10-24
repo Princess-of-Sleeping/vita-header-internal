@@ -2,7 +2,7 @@
 #ifndef _PSP2_KERNEL_SYSMEM_HEAP_H_
 #define _PSP2_KERNEL_SYSMEM_HEAP_H_
 
-#include <shared/types.h>
+#include <psp2kern/kernel/sysmem.h>
 
 
 #ifdef __cplusplus
@@ -10,10 +10,10 @@ extern "C" {
 #endif
 
 
-typedef struct SceKernelUIDHeapClass { // size is 0x34-bytes
-	SceClass sceUIDHeapClass;
-	int (* FixedHeapAllocObject)(SceUIDFixedHeapObject *pFixedHeap, SceSize size, void **result);
-	int (* FixedHeapFreeObject)(SceUIDFixedHeapObject *pFixedHeap, void *pObject);
+typedef struct _SceKernelUIDHeapClass { // size is 0x34-bytes
+	SceClass uidHeapClass;
+	int (* HeapAllocObject)(void *pHeap, SceSize size, void **result);
+	int (* HeapFreeObject)(void *pHeap, void *pObject);
 } SceKernelUIDHeapClass;
 
 /*

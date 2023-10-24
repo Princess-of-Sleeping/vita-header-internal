@@ -6,6 +6,7 @@
 #include "sysmem/address_space.h"
 #include "sysmem/phymempart.h"
 #include "modulemgr.h"
+#include "modulemgr/modulemgr_3.10_3.74.h"
 
 
 #ifdef __cplusplus
@@ -15,7 +16,7 @@ extern "C" {
 typedef SceUInt32 SceProcessType;
 
 typedef struct _SceKernelCallbackListEntry {
-	struct _SceKernelCallbackListEntry* next;
+	struct _SceKernelCallbackListEntry *next;
 	SceUID callback_uid;
 } SceKernelCallbackListEntry;
 
@@ -211,8 +212,8 @@ typedef struct _SceUIDProcessObject { // size is 0x4E0 on FW 3.60
 			SceSize cur_count;       // Current number of resources of this type
 			SceSize highwater;       // Not sure - highest number of resources of this type process had
 		} process_resources[8];
-		char TitleId[0x20];
 	} list_entry;
+	char TitleId[0x20];
 } SceUIDProcessObject;
 
 

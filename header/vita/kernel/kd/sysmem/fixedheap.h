@@ -3,12 +3,12 @@
 #define _PSP2_KERNEL_FIXEDHEAP_H_
 
 #include <psp2kern/types.h>
+#include "heap.h"
 
 
 #ifdef __cplusplus
 extern "C" {
 #endif
-
 
 typedef struct SceKernelUIDFixedHeapClass { // size is 0x3C-bytes
 	SceKernelUIDHeapClass heapClass;
