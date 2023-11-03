@@ -283,23 +283,23 @@ int ksceVfsOpDecodePathElem(SceVfsMount *pMount, const char *path, const char **
 
 
 typedef struct SceIoMountInfo { // size is 0x54C-bytes
-	void *mnt;
+	SceVfsMount *mnt;
 	int mntId;
 	char assignName[0x20];
 	SceUInt32 openedEntryNum;
 	int unk_0x2C;
 	SceUInt32 mntAttr;
 	SceUInt32 fsAttr;
-	int unk_0x38;
-	int unk_0x3C;
-	int unk_0x40;
-	int unk_0x44;
-	int unk_0x48;
-	int unk_0x4C;
-	int unk_0x50;
-	int unk_0x54;
+	SceVfsMount *mnt2;
+	SceVfsNode *vpBlockdev; // base
+	SceUID allocater;
+	SceUInt32 mntRefCount;
+	SceUInt32 nNodes;
+	SceVfsNode *pNodeTop;
+	SceVfsMount *refer_next;
+	SceVfsMount *refer;
 	int unk_0x58;
-	int unk_0x5C;
+	void *pCommon;
 	int unk_0x60;
 	int unk_0x64;
 	int unk_0x68;
@@ -312,9 +312,9 @@ typedef struct SceIoMountInfo { // size is 0x54C-bytes
 	int unk_0x84;
 	char unk_0x88[0x400];
 	int unk_0x488;
-	char unk_0x48C[0x40];
+	char fsName[0x40];
 	char blockdevName[0x40];
-	char unk_0x50C[0x40];
+	char blockdevNameNoPart[0x40];
 } SceIoMountInfo;
 
 
